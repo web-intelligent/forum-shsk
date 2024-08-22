@@ -133,5 +133,3 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 
 
-
-
