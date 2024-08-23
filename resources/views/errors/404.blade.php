@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{{ (!empty($meta['title']) && $meta['title'] != '') ? $meta['title'] : 'Всероссийский форум школьных спортивных клубов' }}</title>
+    <title>Всероссийский форум школьных спортивных клубов - 404</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="{{ (!empty($meta['keywords']) && $meta['keywords'] != '') ? $meta['keywords'] : 'Всероссийский форум школьных спортивных клубов' }}" name="keywords">
-    <meta content="{{ (!empty($meta['description']) && $meta['description'] != '') ? $meta['description'] : 'Всероссийский форум школьных спортивных клубов' }}" name="description">
+    <meta content="404, ошибка 404" name="keywords">
+    <meta content="Ошибка 404. По указанному адресу ничего не найдено" name="description">
 
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript" >
@@ -24,18 +24,6 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/98128615" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
-
-    <link rel="shortcut icon" href="{{ asset('public/img/icon.png') }}" />
-    <meta name="msapplication-TileColor" content="#015fc9" />
-    <meta name="msapplication-TileImage" content="{{ asset('public/img/icon.png') }}" />
-    <meta name="theme-color" content="#015fc9" />
-    <link
-        rel="apple-touch-icon"
-        sizes="50x50"
-        href="{{ asset('public/img/icon.png') }}"
-    />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -139,9 +127,9 @@
 <div class="container-fluid nav-bar px-0 px-lg-4 py-lg-0">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <a href="{{ route('home') }}" class="navbar-brand">
-{{--                <div class="text-primary mb-0 fw-bold fs-1"><i class="fab fa-slack me-2"></i> ZA ШСК</div>--}}
-                {{ \App\Services\ForumServices::showLogo(200, false) }}
+            <a href="{{ route('home') }}" class="navbar-brand pb-4">
+                {{--                <div class="text-primary mb-0 fw-bold fs-1"><i class="fab fa-slack me-2"></i> ZA ШСК</div>--}}
+                {{ \App\Services\ForumServices::showLogo(200) }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
@@ -191,3 +179,19 @@
     </div>
 </div>
 <!-- Navbar & Hero End -->
+
+<div class="container-fluid bg-light py-5">
+    <div class="container py-5 text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                <i class="far fa-frown-open display-1 text-primary mb-4" style="width: 80px; height: 80px;"></i>
+                <h1 class="display-1">404</h1>
+                <h1 class="mb-4">Страница не найдена</h1>
+                <p class="mb-4">Похоже, что Вы указали не существующий адрес</p>
+                <a class="btn btn-primary rounded-pill py-3 px-5" href="{{ route('home') }}"><i class="fa-solid fa-house"></i> На главную</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@include('includes.footer')

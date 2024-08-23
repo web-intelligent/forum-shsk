@@ -134,7 +134,11 @@
                             </div>
                             @if($user->form == 3)
                                 <div class="card card-stats card-round p-3">
-                                    <h4 class="card-title mb-3">Прикрепите материалы для выступления</h4>
+                                    @if(!is_null($performance_material))
+                                        <h4 class="card-title mb-3">Материал для выступления</h4>
+                                    @else
+                                        <h4 class="card-title mb-3">Прикрепите материалы для выступления</h4>
+                                    @endif
                                     <form class="needs-validation" novalidate action="{{ route('upload.materials') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="my-3">

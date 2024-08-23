@@ -115,10 +115,14 @@ class ForumServices
         return $interval->y;
     }
 
-    public static function showLogo($width_attr)
+    public static function showLogo($width_attr, $white)
     {
         $width = 200;
         if($width_attr != '' && !empty($width) && $width_attr != 0 && isset($width_attr)) $width = $width_attr;
-        echo '<img style="width: '. $width .'px" src="/public/img/logo-4.png" alt="Logo">';
+        if($white && isset($white)) {
+            echo '<img style="width: '. $width .'px" src="/public/img/logo-8-white.png" alt="Всероссийский форум школьных спортивных клубов">';
+        } else {
+            echo '<img style="width: '. $width .'px" src="/public/img/logo-8.png" alt="Всероссийский форум школьных спортивных клубов">';
+        }
     }
 }

@@ -4,7 +4,7 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a style="color: #fff" href="{{ route('home') }}" class="logo">
-                {{ \App\Services\ForumServices::showLogo(150) }}
+                {{ \App\Services\ForumServices::showLogo(150, true) }}
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
