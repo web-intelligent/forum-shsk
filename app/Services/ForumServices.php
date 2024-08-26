@@ -125,4 +125,6 @@ class ForumServices
             echo '<img style="width: '. $width .'px" src="/public/img/logo-8.png" alt="Всероссийский форум школьных спортивных клубов">';
         }
     }
+
+
 }

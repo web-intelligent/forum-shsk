@@ -20,54 +20,7 @@
                     <h4 class="page-title">Личный кабинет</h4>
                 </div>
                 <div class="page-category">
-
                     <div class="row">
-                        <div class="col-sm-12 col-md-6 col-lg-3 mb-3">
-                            <div class="card card-stats card-round p-3">
-                                <h4 class="card-title mb-3">Ваша фотография</h4>
-                                @if(!is_null($user->avatar))
-                                    <img class="mt-3 rounded-2" src="{{ asset('public/storage/' . $user->avatar) }}" alt="">
-                                    <div class="my-3">
-                                        <small class="text-secondary">В случае необходимости, фотографию можно изменить</small>
-                                    </div>
-                                    <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <label class="cyber_input-file">
-                                            <input type="file" name="avatar">
-                                            <span class="cyber_input-file-btn my-3"> Выберите файл <i class="fa-solid fa-image-portrait"></i></span>
-                                            <span class="cyber_input-file-text"></span>
-                                        </label>
-                                        <div class="mb-3">
-                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-upload"></i> Изменить фото</button>
-                                        </div>
-                                    </form>
-                                @else
-                                    <img class="mt-3 rounded-2" src="{{ asset('public/img/user-no-photo.png') }}" alt="">
-                                    <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        @if ($errors->any())
-                                            <div class="response-message-register">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                                <small style="font-size: 10px" class="text-white">Нажмите, чтобы скрыть</small>
-                                            </div>
-                                        @endif
-                                        <label class="cyber_input-file">
-                                            <input type="file" name="avatar">
-                                            <span class="cyber_input-file-btn my-3"> Выберите файл <i class="fa-solid fa-paperclip"></i></span>
-                                            <span class="cyber_input-file-text"></span>
-                                        </label>
-                                        <div class="mb-3">
-                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-upload"></i> Загрузить</button>
-                                        </div>
-                                    </form>
-                                    <small class="text-muted">Обратите, пожалуйста, внимание, что загружаемая фотография должна быть в формате JPG, JPEG или PNG размером не более 2000 пикселей по ширине и высоте. Добавляя фотографию, учитывайте, что её могут использовать в работе данного сайта и во время проведения форума</small>
-                                @endif
-                            </div>
-                        </div>
                         <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                             <div class="card card-stats card-round">
                                 <div class="card-body">
@@ -131,6 +84,7 @@
                                 <div class="mx-auto mt-4 mb-3">
                                     {{ \SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate(route('scan.user', ['id' => $user->id])) }}
                                 </div>
+                                <a class="btn btn-sm btn-primary" target="_blank" href="{{ route('print.qrcode', ['user_id' => $user->id]) }}"><i class="fa-solid fa-print"></i> Распечатать QR-код</a>
                             </div>
                             @if($user->form == 3)
                                 <div class="card card-stats card-round p-3">
@@ -169,6 +123,52 @@
 
                                 </div>
                             @endif
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-3">
+                            <div class="card card-stats card-round p-3">
+                                <h4 class="card-title mb-3">Ваша фотография</h4>
+                                @if(!is_null($user->avatar))
+                                    <img class="mt-3 rounded-2" src="{{ asset('public/storage/' . $user->avatar) }}" alt="">
+                                    <div class="my-3">
+                                        <small class="text-secondary">В случае необходимости, фотографию можно изменить</small>
+                                    </div>
+                                    <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <label class="cyber_input-file">
+                                            <input type="file" name="avatar">
+                                            <span class="cyber_input-file-btn my-3"> Выберите файл <i class="fa-solid fa-image-portrait"></i></span>
+                                            <span class="cyber_input-file-text"></span>
+                                        </label>
+                                        <div class="mb-3">
+                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-upload"></i> Изменить фото</button>
+                                        </div>
+                                    </form>
+                                @else
+                                    <img class="mt-3 rounded-2" src="{{ asset('public/img/user-no-photo.png') }}" alt="">
+                                    <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        @if ($errors->any())
+                                            <div class="response-message-register">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                                <small style="font-size: 10px" class="text-white">Нажмите, чтобы скрыть</small>
+                                            </div>
+                                        @endif
+                                        <label class="cyber_input-file">
+                                            <input type="file" name="avatar">
+                                            <span class="cyber_input-file-btn my-3"> Выберите файл <i class="fa-solid fa-paperclip"></i></span>
+                                            <span class="cyber_input-file-text"></span>
+                                        </label>
+                                        <div class="mb-3">
+                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-upload"></i> Загрузить</button>
+                                        </div>
+                                    </form>
+                                    <small class="text-muted">Обратите, пожалуйста, внимание, что загружаемая фотография должна быть в формате JPG, JPEG или PNG размером не более 2000 пикселей по ширине и высоте. Добавляя фотографию, учитывайте, что её могут использовать в работе данного сайта и во время проведения форума</small>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

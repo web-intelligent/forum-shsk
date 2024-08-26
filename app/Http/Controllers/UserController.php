@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Policies\IsAdminPolicy;
 use App\Services\ForumServices;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+
     /*
      * Страница авторизации
      * */
@@ -85,11 +87,12 @@ class UserController extends Controller
             }
 
             session()->flash('success', 'Вы авторизовались успешно');
-            if(Auth::user()->is_admin) {
-                return redirect()->route('admin.dashboard');
-            } else {
-                return redirect()->route('user.profile');
-            }
+            return redirect()->route('user.profile');
+//            if(Auth::user()->is_admin) {
+//                return redirect()->route('admin.dashboard');
+//            } else {
+//                return redirect()->route('user.profile');
+//            }
         }
 
         return redirect()->back()->with('wrong', 'Неверный логин или пароль');
@@ -133,7 +136,7 @@ class UserController extends Controller
                     'required', 'max:25', 'min:5', 'email', 'unique:users'
                 ],
                 'name' => [
-                    'required', 'max:255', 'min:5', 'regex:/[А-Яа-яЁё]/u'
+                    'required', 'max:25', 'min:2', 'regex:/[А-Яа-яЁё]/u'
                 ],
                 'phone' => [
                     'required', 'max:18', 'min:18', 'unique:users'
@@ -207,7 +210,7 @@ class UserController extends Controller
 
                 'name.required' => 'Укажите имя',
                 'name.max' => 'Имя не должно содержать более 25 символов',
-                'name.min' => 'Имя не должно содержать менее 1 символов',
+                'name.min' => 'Имя не должно содержать менее 2 символов',
                 'name.regex' => 'В имени должны быть только кириллические символы',
 
                 'birth_day.required' => 'Укажите дату рождения',
@@ -589,7 +592,7 @@ class UserController extends Controller
 
         )->validate();
 
-        $material = [];
+        $material_docs = '';
 
         if ($request->hasFile('material_docs')) {
             $material_docs = $request->file('material_docs')->storeAs("performance-materials/" . Auth::id(), $request->file('material_docs')->getClientOriginalName(), 'public');
@@ -606,5 +609,15 @@ class UserController extends Controller
         return redirect()->route('user.profile')->with('wrong', 'Материал для выступления не добавлены');
     }
 
+
+    /*
+     * Страница распечатывания QR кода
+     * */
+
+    public function printQrCode($user_id)
+    {
+
+        return view('user.print_qrcode', compact('user_id'));
+    }
 
 }

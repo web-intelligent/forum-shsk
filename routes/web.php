@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ Route::get('/', function () {
     ));
 
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'xn----itbjbj2arv.xn--p1ai/wp-content/plugins/shsk_forum_data/curls/testimonials.php',
+        CURLOPT_URL => 'https://xn----itbjbj2arv.xn--p1ai/wp-content/plugins/shsk_forum_data/curls/testimonials.php',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $params
@@ -85,6 +86,8 @@ Route::get('/регистрация', [UserController::class, 'registerForm'])->
 Route::post('/регистрация', [UserController::class, 'registerUser'])->name('register.user.submit');
 Route::post('/вход', [UserController::class, 'authUser'])->name('auth.user.submit');
 
+Route::get('/программа-форума-шск', [ProgramController::class, 'showProgram'])->name('show.program');
+
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/личный-кабинет', [UserController::class, 'userProfile'])->name('user.profile');
     Route::get('/редактирование-личного-кабинета', [UserController::class, 'changeProfileDataForm'])->name('change.profile.data.form');
@@ -93,6 +96,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/опрос', [UserController::class, 'pollForm'])->name('poll.form');
     Route::get('/сертификаты', [UserController::class, 'certificatePage'])->name('certificates');
     Route::post('/загрузка-материалов', [UserController::class, 'uploadMaterials'])->name('upload.materials');
+    Route::get('/распечатать-qr-код/{user_id}', [UserController::class, 'printQrCode'])->name('print.qrcode');
+
+    Route::resource('/program', '\App\Http\Controllers\ProgramController');
+
 });
 
 Route::group(['prefix' => 'password', 'middleware' => 'guest'], function () {

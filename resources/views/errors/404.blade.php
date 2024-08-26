@@ -129,7 +129,7 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <a href="{{ route('home') }}" class="navbar-brand pb-4">
                 {{--                <div class="text-primary mb-0 fw-bold fs-1"><i class="fab fa-slack me-2"></i> ZA ШСК</div>--}}
-                {{ \App\Services\ForumServices::showLogo(200) }}
+                {{ \App\Services\ForumServices::showLogo(200, true) }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
