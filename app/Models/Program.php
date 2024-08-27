@@ -17,5 +17,6 @@ class Program extends Model
         'name',
         'description',
         'marked',
+        'long',
     ];
 }

@@ -8,7 +8,7 @@
             <h1 class="display-4 mb-4">Регистрация участника на форум ШСК</h1>
             <p class="mb-0">Добро пожаловать на страницу регистрации Всероссийского форума школьных спортивных клубов! Мы рады, что вы решили присоединиться к нашему сообществу и внести свой вклад в развитие школьного спорта. Здесь вы найдете единомышленников, сможете поделиться своими идеями и получить ценные советы от экспертов. Присоединяйтесь к нам и станьте частью движения за здоровый образ жизни и спортивное будущее нашей страны!
             </p>
-            <h4 class="text-primary pt-5">Заполните форму ниже</h4>
+            <h4 class="text-primary pt-5">Регистрация на очное участие только для официальных делегатов от субъекта РФ</h4>
         </div>
         <div class="mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
             <form class="needs-validation" action="{{ route('register.user.submit') }}" method="POST" novalidate>
@@ -132,27 +132,6 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="mb-3">
-                            <div class="mb-1">Являетесь ли Вы участником Всероссийского конкурса "Профессионального мастерства среди педагогических работников, осуществляющих обучение детей по дополнительным общеобразовательным программам в области физической культуры и спорта" *</div>
-                            <div class="form-check">
-                                <input @if(!is_null(old('competition_member')) && old('competition_member') == 1) checked @endif required value="1" class="form-check-input" type="radio" name="competition_member" id="competition_member_1">
-                                <label class="form-check-label" for="competition_member_1">
-                                    Да
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input @if(!is_null(old('competition_member')) && old('competition_member') == 0) checked @endif required value="0" class="form-check-input" type="radio" name="competition_member" id="competition_member_2">
-                                <label class="form-check-label" for="competition_member_2">
-                                    Нет
-                                </label>
-                                <div class="valid-feedback">
-                                    Верно!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Выберите подходящий ответ
-                                </div>
-                            </div>
-                        </div>
                         <div class="mb-3">
                             <div class="mb-1 fw-bold">Ведомственные награды и звания</div>
                             @foreach(\App\Services\ForumServices::$forum_awards as $key => $award)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -35,6 +36,8 @@ class ProgramController extends Controller
             $program_arr[$program->date][$iter]['address'] = $program->address;
             $program_arr[$program->date][$iter]['start_time'] = $program->start_time;
             $program_arr[$program->date][$iter]['end_time'] = $program->end_time;
+            $program_arr[$program->date][$iter]['long'] = $program->long;
+            $program_arr[$program->date][$iter]['marked'] = $program->marked;
             $iter++;
         }
 
@@ -66,7 +69,7 @@ class ProgramController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
         //Валидация
         Validator::make(
             $request->all(),
@@ -86,10 +89,16 @@ class ProgramController extends Controller
                     'nullable', 'date_format:H:i'
                 ],
                 'address' => [
-                    'required', 'max:255', 'min:2'
+                    'nullable', 'max:500', 'min:2'
                 ],
                 'description' => [
                    'min:2', 'nullable'
+                ],
+                'marked' => [
+                    'nullable', 'integer', 'max:1'
+                ],
+                'long' => [
+                    'nullable', 'integer', 'max:1'
                 ],
             ],
             // Сообщения об ошибках валидации
@@ -107,11 +116,16 @@ class ProgramController extends Controller
                 'end_time.required' => 'Укажите время окончания проведения мероприятия',
                 'end_time.date_format' => 'Указан неверный формат времени окончания проведения мероприятия',
 
-                'address.required' => 'Укажите адрес проведения мероприятия',
-                'address.max' => 'Адрес не должен содержать более 255 символов',
+                'address.max' => 'Адрес не должен содержать более 500 символов',
                 'address.min' => 'Адрес не должен содержать менее 2 символов',
 
                 'description.min' => 'Описание не должно содержать менее 2 символов',
+
+                'marked.integer' => 'Неверный формат для поля "Доступно для выбора пользователям"',
+                'marked.max' => 'Указано слишком большое число для поля "Доступно для выбора пользователям"',
+
+                'long.integer' => 'Неверный формат для поля "Выделенный элемент программы"',
+                'long.max' => 'Указано слишком большое число для поля "Выделенный элемент программы"',
 
             ]
 
@@ -125,7 +139,8 @@ class ProgramController extends Controller
             'end_time' => $request->end_time,
             'address' => $request->address,
             'description' => $request->description,
-            'marked' => 0,
+            'marked' => (!is_null($request->marked)) ? $request->marked : 0,
+            'long' => (!is_null($request->long)) ? $request->long : 0,
         ]);
 
         if($insert) return redirect()->route('program.index')->with('success', 'Элемент программы был создан успешно');
@@ -191,10 +206,16 @@ class ProgramController extends Controller
                     'nullable', 'date_format:H:i'
                 ],
                 'address' => [
-                    'required', 'max:255', 'min:2'
+                    'nullable', 'max:500', 'min:2'
                 ],
                 'description' => [
                     'min:2', 'nullable'
+                ],
+                'marked' => [
+                    'nullable', 'integer', 'max:1'
+                ],
+                'long' => [
+                    'nullable', 'integer', 'max:1'
                 ],
             ],
             // Сообщения об ошибках валидации
@@ -212,15 +233,21 @@ class ProgramController extends Controller
                 'end_time.required' => 'Укажите время окончания проведения мероприятия',
                 'end_time.date_format' => 'Указан неверный формат времени окончания проведения мероприятия',
 
-                'address.required' => 'Укажите адрес проведения мероприятия',
-                'address.max' => 'Адрес не должен содержать более 255 символов',
+                'address.max' => 'Адрес не должен содержать более 500 символов',
                 'address.min' => 'Адрес не должен содержать менее 2 символов',
 
                 'description.min' => 'Описание не должно содержать менее 2 символов',
 
+                'marked.integer' => 'Неверный формат для поля "Доступно для выбора пользователям"',
+                'marked.max' => 'Указано слишком большое число для поля "Доступно для выбора пользователям"',
+
+                'long.integer' => 'Неверный формат для поля "Выделенный элемент программы"',
+                'long.max' => 'Указано слишком большое число для поля "Выделенный элемент программы"',
+
             ]
 
         )->validate();
+
         $update = Program::where('id', $program->id)->update([
             'name' => $request->name,
             'date' => $request->date,
@@ -228,7 +255,8 @@ class ProgramController extends Controller
             'end_time' => $request->end_time,
             'address' => $request->address,
             'description' => $request->description,
-            'marked' => 0,
+            'marked' => (!is_null($request->marked)) ? $request->marked : 0,
+            'long' => (!is_null($request->long)) ? $request->long : 0,
         ]);
 
 
@@ -253,6 +281,7 @@ class ProgramController extends Controller
 
     public function showProgram()
     {
+
         //
         $meta = [
             'title' => 'Программа Всероссийского форума школьных спортивных клубов',
@@ -272,9 +301,19 @@ class ProgramController extends Controller
             $program_arr[$program->date][$iter]['address'] = $program->address;
             $program_arr[$program->date][$iter]['start_time'] = $program->start_time;
             $program_arr[$program->date][$iter]['end_time'] = $program->end_time;
+            $program_arr[$program->date][$iter]['long'] = $program->long;
+            $program_arr[$program->date][$iter]['marked'] = $program->marked;
             $iter++;
         }
 
         return view('program', compact('meta', 'user', 'program_arr'));
+    }
+
+    public function pdfProgramGenerate()
+    {
+        $pdf = Pdf::loadView('program_pdf');
+
+        return $pdf->download('Программа Форума ШСК - 2024.pdf');
+
     }
 }

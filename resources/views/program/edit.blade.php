@@ -75,11 +75,20 @@
                                                     <div class="mb-2 fw-bold">Время окончания проведения</div>
                                                     <input type="time" class="form-control" name="end_time" value="{{ old('end_time', $program->end_time) }}">
                                                 </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input @if(old('long', $program->long) == 1) checked @endif class="form-check-input" type="checkbox" value="1" name="long" id="long_element">
+                                                        <label class="form-check-label" for="long_element">
+                                                            Выделенный элемент программы
+                                                        </label>
+                                                    </div>
+                                                    <small class="text-secondary"><i class="fa-solid fa-triangle-exclamation"></i> Выделенный элемент программы будет растянут на всю ширину таблицы и окрасится в цвет</small>
+                                                </div>
                                             </div>
                                             <div class="col-sm-12 col-lg-6 mb-3">
                                                 <div class="mb-3">
-                                                    <div class="mb-2 fw-bold">Адрес проведения (местоположение) *</div>
-                                                    <textarea rows="5" required class="form-control" name="address" placeholder="Республика Крым, г. Алушта">{{ old('address', $program->address) }}</textarea>
+                                                    <div class="mb-2 fw-bold">Адрес проведения (местоположение)</div>
+                                                    <textarea rows="5" class="form-control" name="address" placeholder="Республика Крым, г. Алушта">{{ old('address', $program->address) }}</textarea>
                                                     <div class="valid-feedback">
                                                         Верно!
                                                     </div>
@@ -91,21 +100,22 @@
                                                     <div class="mb-2 fw-bold">Описание</div>
                                                     <textarea rows="5" class="form-control" name="description" placeholder="ФГБУ «ФЦОМОФВ»">{{ old('description', $program->description) }}</textarea>
                                                 </div>
-{{--                                                <div class="mb-3">--}}
-{{--                                                    <div class="form-check">--}}
-{{--                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">--}}
-{{--                                                        <label class="form-check-label" for="flexCheckDefault">--}}
-{{--                                                            Отметьте, если .... (элемент в разработке)--}}
-{{--                                                        </label>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input @if(old('marked', $program->marked) == 1) checked @endif class="form-check-input" type="checkbox" value="1" name="marked" id="flexCheckDefault">
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            Доступно для выбора пользователям
+                                                        </label>
+                                                    </div>
+                                                    <small class="text-secondary"><i class="fa-solid fa-triangle-exclamation"></i> Пользователь сможет увидеть данный элемент программы в личном кабинете и включить его в свою индивидуальную программу</small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <small class="text-secondary">* - Поля, обязательные для заполнения</small>
                                         </div>
                                         <div class="mb-3">
-                                            <button class="btn btn-primary rounded-pill py-2 px-4 ms-3 flex-shrink-0" type="submit"><i class="fa-solid fa-plus"></i> Редактировать</button>
+                                            <button class="btn btn-primary rounded-pill py-2 px-4 ms-3 flex-shrink-0" type="submit"><i class="fa-solid fa-edit"></i> Редактировать</button>
                                         </div>
                                     </form>
                                 </div>

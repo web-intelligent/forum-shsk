@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\UserController;
@@ -97,6 +98,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/сертификаты', [UserController::class, 'certificatePage'])->name('certificates');
     Route::post('/загрузка-материалов', [UserController::class, 'uploadMaterials'])->name('upload.materials');
     Route::get('/распечатать-qr-код/{user_id}', [UserController::class, 'printQrCode'])->name('print.qrcode');
+//    Route::get('/админ', )
 
     Route::resource('/program', '\App\Http\Controllers\ProgramController');
 
@@ -140,5 +142,7 @@ Route::fallback(function () {
     abort('404');
 });
 
+
+Route::get('/программа-pdf', [ProgramController::class, 'pdfProgramGenerate'])->name('pdf.program.generate');
 
 

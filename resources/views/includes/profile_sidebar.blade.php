@@ -30,6 +30,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="">
+                        <i class="fa-solid fa-list-check"></i>
+                        <p>Программа</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('poll.form') }}">
                         <i class="fas fa-edit"></i>
                         <p>Опрос</p>

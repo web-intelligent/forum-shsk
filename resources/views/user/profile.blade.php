@@ -25,7 +25,7 @@
                             <div class="card card-stats card-round">
                                 <div class="card-body">
                                     <h4 class="card-title mb-3">Основные данные участника</h4>
-                                    @if($user->competition_member == 1)
+                                    @if($user->form == 2)
                                         <p class="card-category mb-3 mt-3 text-info">
                                             Участник Всероссийского конкурса профессионального мастерства среди педагогических работников, осуществляющих обучение детей по дополнительным общеобразовательным программам в области физической культуры и спорта
                                         </p>
@@ -86,7 +86,7 @@
                                 </div>
                                 <a class="btn btn-sm btn-primary" target="_blank" href="{{ route('print.qrcode', ['user_id' => $user->id]) }}"><i class="fa-solid fa-print"></i> Распечатать QR-код</a>
                             </div>
-                            @if($user->form == 3)
+                            @if($user->form == 3 || $user->form == 4)
                                 <div class="card card-stats card-round p-3">
                                     @if(!is_null($performance_material))
                                         <h4 class="card-title mb-3">Материал для выступления</h4>

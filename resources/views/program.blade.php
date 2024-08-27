@@ -10,6 +10,9 @@
             </p>
         </div>
         <div class="mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="d-flex justify-content-end mb-3">
+                <div><a class="btn btn-primary rounded-pill py-2 px-4 ms-3 flex-shrink-0" href="{{ route('pdf.program.generate') }}"><i class="fa-solid fa-file-pdf"></i> Скачать в PDF</a> </div>
+            </div>
             @if(!empty($program_arr))
                 <table class="table table-bordered table-striped" style="font-size: 12px">
                     <thead>
@@ -22,16 +25,28 @@
                     </thead>
                     <tbody>
                     @foreach($program_arr as $date => $elements)
-                        <td style="text-align: center; vertical-align: middle" colspan="4" class="bg-info text-white text-center fs-6 fw-bold">{{ date('d сентября Y года', strtotime($date)) }}</td>
+                        <td style="text-align: center; vertical-align: middle" colspan="4" class="bg-primary text-white text-center fw-bold fs-5">{{ date('d сентября Y года', strtotime($date)) }}</td>
                         <tr>
                         </tr>
                         @foreach($elements as $element)
-                            <tr>
-                                <td style="vertical-align: middle">{{ $element['address'] }}</td>
-                                <td style="vertical-align: middle">{{ $element['start_time'] }} @if(!is_null($element['end_time'])) - {{ $element['end_time'] }} @endif</td>
-                                <td style="vertical-align: middle">{{ $element['name'] }}</td>
-                                <td style="vertical-align: middle">{{ $element['description'] }}</td>
-                            </tr>
+                            @if($element['long'] == 1)
+                                <tr>
+                                    <td style="text-align: center; vertical-align: middle; background: #015fc9; color: white; font-weight: bold" colspan="4">
+                                        {{ $element['name'] }}<br>
+                                        {{ $element['start_time'] }} @if(!is_null($element['end_time'])) - {{ $element['end_time'] }} @endif<br>
+                                        @if(!is_null($element['address'])) {{ $element['address'] }}<br> @endif
+                                        @if(!is_null($element['description'])) {{ $element['description'] }}<br> @endif
+                                    </td>
+                                </tr>
+
+                            @else
+                                <tr>
+                                    <td>{{ $element['address'] }}</td>
+                                    <td>{{ $element['start_time'] }} @if(!is_null($element['end_time'])) - {{ $element['end_time'] }} @endif</td>
+                                    <td>{{ $element['name'] }}</td>
+                                    <td>{{ $element['description'] }}</td>
+                                </tr>
+                            @endif
                         @endforeach
                     @endforeach
                     </tbody>

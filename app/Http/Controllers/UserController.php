@@ -185,9 +185,6 @@ class UserController extends Controller
                 'accept' => [
                     'accepted'
                 ],
-                'competition_member' => [
-                    'required', 'integer'
-                ]
             ],
             // Сообщения об ошибках валидации
             [
@@ -242,9 +239,6 @@ class UserController extends Controller
                 'form.required' => 'Поле "Форма участия" обязательно для заполнения',
                 'form.integer' => 'В поле "Форма участия" указан неверный формат',
 
-                'competition_member.required' => 'Отметьте участие в конкурсе профмастерства',
-                'competition_member.integer' => 'Отметьте участие в конкурсе профмастерства',
-
                 'location.required' => 'Поле "Тип населённого пункта" обязательно для заполнения',
                 'location.string' => 'В поле "Тип населённого пункта" указан неверный формат',
                 'location.max' => 'В поле "Тип населённого пункта" превышено максимальное значение',
@@ -272,7 +266,6 @@ class UserController extends Controller
             'region' => $request->region,
             'form' => $request->form,
             'location' => $request->location,
-            'competition_member' => $request->competition_member,
             'password' => Hash::make($request->password),
             'ip_address' => $request->ip(),
 
@@ -594,19 +587,33 @@ class UserController extends Controller
 
         $material_docs = '';
 
+        // Загрузка на диск
         if ($request->hasFile('material_docs')) {
             $material_docs = $request->file('material_docs')->storeAs("performance-materials/" . Auth::id(), $request->file('material_docs')->getClientOriginalName(), 'public');
         }
 
+        // пробуем обновить инфо
+        $update = DB::table('material_docs')->where('user_id', '=', Auth::id())->update([
+            'user_id' => Auth::id(),
+            'material_docs' => $material_docs,
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        // проверяем состояние
+        if($update) return redirect()->route('user.profile')->with('success', 'Материал для выступления обновлен успешно');
+
+        // если $update != true пробуем вставить новую запись
         $insert = DB::table('material_docs')->insert([
             'user_id' => Auth::id(),
             'material_docs' => $material_docs,
             'created_at' => date('Y-m-d H:i:s')
         ]);
 
+        // проверяем состояние
         if($insert) return redirect()->route('user.profile')->with('success', 'Материал для выступления добавлены успешно');
 
-        return redirect()->route('user.profile')->with('wrong', 'Материал для выступления не добавлены');
+        // если не то и не другое не сработало тогда тормозим процесс
+        return redirect()->back()->with('wrong', 'Материал для выступления не добавлены');
     }
 
 
