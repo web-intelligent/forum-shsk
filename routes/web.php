@@ -4,6 +4,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\QRController;
+use App\Http\Controllers\RegisteredUsersController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -98,11 +99,22 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/сертификаты', [UserController::class, 'certificatePage'])->name('certificates');
     Route::post('/загрузка-материалов', [UserController::class, 'uploadMaterials'])->name('upload.materials');
     Route::get('/распечатать-qr-код/{user_id}', [UserController::class, 'printQrCode'])->name('print.qrcode');
-//    Route::get('/админ', )
 
+    // Составление программы
+    Route::get('/программа-пользователя', [ProgramController::class, 'userProgramIndex'])->name('user.program.index');
+    Route::post('/программа-пользователя', [ProgramController::class, 'userProgramIndexSubmit'])->name('user.program.submit');
     Route::resource('/program', '\App\Http\Controllers\ProgramController');
 
 });
+Route::group(['middleware' => ['is_editor_and_admin']], function () {
+    // пользователи
+    Route::get('/пользователи', [RegisteredUsersController::class, 'index'])->name('users.index');
+    Route::get('/пользователь/{user_id}', [RegisteredUsersController::class, 'show'])->name('users.show');
+    Route::get('/удалить-пользователя/{user_id}', [RegisteredUsersController::class, 'destroy'])->name('users.destroy');
+    Route::get('/редактирование-пользователя/{user_id}', [RegisteredUsersController::class, 'edit'])->name('users.edit');
+    Route::post('/редактирование-пользователя/{user_id}', [RegisteredUsersController::class, 'update'])->name('users.update');
+});
+
 
 Route::group(['prefix' => 'password', 'middleware' => 'guest'], function () {
     Route::get('/забыли-пароль', [PasswordController::class, 'index'])->name('password-forgot');
@@ -139,8 +151,33 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 
 Route::fallback(function () {
-    abort('404');
+    $meta = [
+        'title' => 'Всероссийский форум школьных спортивных клубов - 419',
+        'description' => 'Ошибка 419. По указанному адресу ничего не найдено',
+        'keywords' => '419, ошибка 419'
+    ];
+    return response()->view('errors.419', $meta, 419);
 });
+
+Route::fallback(function () {
+    $meta = [
+        'title' => 'Всероссийский форум школьных спортивных клубов - 500',
+        'description' => 'Ошибка 500. По указанному адресу ничего не найдено',
+        'keywords' => '500, ошибка 500'
+    ];
+    return response()->view('errors.500', $meta, 500);
+});
+
+
+Route::fallback(function () {
+    $meta = [
+        'title' => 'Всероссийский форум школьных спортивных клубов - 404',
+        'description' => 'Ошибка 404. По указанному адресу ничего не найдено',
+        'keywords' => '404, ошибка 404'
+    ];
+    return response()->view('errors.404', $meta, 404);
+});
+
 
 
 Route::get('/программа-pdf', [ProgramController::class, 'pdfProgramGenerate'])->name('pdf.program.generate');

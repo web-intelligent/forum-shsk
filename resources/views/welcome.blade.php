@@ -156,7 +156,7 @@
             <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
                 <div class="feature-item p-4 pt-0">
                     <div class="feature-icon p-4 mb-4">
-                        <i class="fa-solid fa-people-carry-box fa-3x"></i>
+                        <i class="fa-solid fa-user-check fa-3x"></i>
                     </div>
                     <h5 class="mb-4">Компетенции специалистов</h5>
                     <p style="font-size: 12px" class="mb-4">Повышение общих и профессиональных компетенций специалистов в сфере физической культуры и спорта, осуществляющих деятельность в ШСК, в соответствии с национальными целями и реализацией государственной политики и в области образования и в сфере физической культуры и спорта
@@ -316,7 +316,7 @@
             <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="service-item">
                     <div class="service-img">
-                        <img src="public/img/communication-1.jpg" class="img-fluid rounded-top w-100" alt="">
+                        <img src="public/img/vlad-10.PNG" class="img-fluid rounded-top w-100" alt="">
                         <div class="service-icon p-3">
                             <i class="fa fa-users fa-2x"></i>
                         </div>
@@ -333,7 +333,7 @@
             <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
                 <div class="service-item">
                     <div class="service-img">
-                        <img src="public/img/communication-2.jpg" class="img-fluid rounded-top w-100" alt="">
+                        <img src="public/img/vlad-11.PNG" class="img-fluid rounded-top w-100" alt="">
                         <div class="service-icon p-3">
                             <i class="fa-solid fa-school fa-2x"></i>
                         </div>
@@ -349,7 +349,7 @@
             <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
                 <div class="service-item">
                     <div class="service-img">
-                        <img src="public/img/communication-3.jpg" class="img-fluid rounded-top w-100" alt="">
+                        <img src="public/img/vlad-12.PNG" class="img-fluid rounded-top w-100" alt="">
                         <div class="service-icon p-3">
                             <i class="fa-solid fa-briefcase fa-2x"></i>
                         </div>
@@ -365,7 +365,7 @@
             <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
                 <div class="service-item">
                     <div class="service-img">
-                        <img src="public/img/communication-4.jpg" class="img-fluid rounded-top w-100" alt="">
+                        <img src="public/img/vlad-13.PNG" class="img-fluid rounded-top w-100" alt="">
                         <div class="service-icon p-3">
                             <i class="fa-solid fa-person-circle-question fa-2x"></i>
                         </div>
@@ -494,7 +494,7 @@
                 </div>
             </div>
             <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.4s">
-                <img src="public/img/carousel-2.png" class="img-fluid w-100" alt="">
+                <img src="public/img/vlad-14.PNG" class="img-fluid w-100" alt="">
             </div>
         </div>
     </div>

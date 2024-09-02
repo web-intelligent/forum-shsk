@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Program;
 use App\Policies\IsAdminPolicy;
 use App\Services\ForumServices;
 use Illuminate\Auth\Events\Registered;
@@ -308,7 +309,10 @@ class UserController extends Controller
 
         $performance_material = DB::table('material_docs')->where('user_id', $user->id)->first();
 
-        return view('user.profile', compact('meta', 'user', 'performance_material'));
+        $program = DB::table('user_program')->where('user_id', '=', Auth::id())->first('program');
+
+
+        return view('user.profile', compact('meta', 'user', 'performance_material', 'program'));
     }
 
     /*

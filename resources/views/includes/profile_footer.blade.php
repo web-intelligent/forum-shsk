@@ -44,6 +44,10 @@
 <!-- Kaiadmin JS -->
 <script src="{{ asset('public/profile/assets/js/kaiadmin.min.js') }}"></script>
 
-<script src="{{ asset('public/js/forum_script.js') }}"></script>
+<script src="{{ asset('public/js/fancyTable.min.js') }}"></script>
+
+<script src="{{ asset('public/js/jquery.viewbox.min.js') }}"></script>
+
+<script src="{{ asset('public/js/forum_script.js?ver=1.0.0') }}"></script>
 </body>
 </html>

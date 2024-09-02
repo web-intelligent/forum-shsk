@@ -101,7 +101,7 @@
                         </ul>
                     </div>
                     <div class="border-end border-primary pe-3">
-                        <a href="https://artek.org" target="_blank" class="text-muted small"><i class="fas fa-map-marker-alt text-primary me-2"></i> Детский лагерь отдыха "Артек"</a>
+                        <a href="https://artek.org" target="_blank" class="text-muted small"><i class="fas fa-map-marker-alt text-primary me-2"></i> Международный детский центр "Артек"</a>
                     </div>
                     <div class="border-end border-primary ps-3 pe-3">
                         <a href="#" class="text-muted small"><i class="fas fa-calendar text-primary me-2"></i> 19-21 сентября </a>

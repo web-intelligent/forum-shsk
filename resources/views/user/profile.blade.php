@@ -21,6 +21,76 @@
                 </div>
                 <div class="page-category">
                     <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-3">
+                            <div class="card card-stats card-round p-3">
+                                <h4 class="card-title mb-3">Список задач</h4>
+                                <ul class="mt-3">
+                                    @if(is_null($user->avatar))
+                                        <li style="list-style: none;" class="text-danger"><i class="fa-solid fa-xmark"></i> Добавить фотографию</li>
+                                    @else
+                                        <li style="list-style: none;" class="text-success"><i class="fa-solid fa-check"></i> Фотография добавлена</li>
+                                    @endif
+                                    @if(!is_null($program))
+                                        <li style="list-style: none;" class="text-success"><i class="fa-solid fa-check"></i> Программа составлена</li>
+                                    @else
+                                        <li style="list-style: none;" class="text-danger"><i class="fa-solid fa-xmark"></i> Составить программу</li>
+                                    @endif
+                                    <li style="list-style: none;" class="text-danger"><i class="fa-solid fa-xmark"></i> Пройти опрос</li>
+                                    @if($user->form == 3 || $user->form == 4)
+                                            @if(!is_null($performance_material))
+                                                <li style="list-style: none;" class="text-success"><i class="fa-solid fa-check"></i> Материал для выступления добавлен</li>
+                                            @else
+                                                <li style="list-style: none;" class="text-danger"><i class="fa-solid fa-xmark"></i> Добавить материал для выступления</li>
+                                            @endif
+                                    @endif
+                                </ul>
+                            </div>
+                            <div class="card card-stats card-round p-3">
+                                <h4 class="card-title mb-3">Ваш QR-код</h4>
+                                <div class="mx-auto mt-4 mb-3">
+                                    {{ \SimpleSoftwareIO\QrCode\Facades\QrCode::size(100)->generate(route('scan.user', ['id' => $user->id])) }}
+                                </div>
+                                <a class="btn btn-sm btn-primary" target="_blank" href="{{ route('print.qrcode', ['user_id' => $user->id]) }}"><i class="fa-solid fa-print"></i> Распечатать QR-код</a>
+                            </div>
+                            @if($user->form == 3 || $user->form == 4)
+                                <div class="card card-stats card-round p-3">
+                                    @if(!is_null($performance_material))
+                                        <h4 class="card-title mb-3">Материал для выступления</h4>
+                                    @else
+                                        <h4 class="card-title mb-3">Прикрепите материалы для выступления</h4>
+                                    @endif
+                                    <form class="needs-validation" novalidate action="{{ route('upload.materials') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="my-3">
+                                            <div class="mb-2 fw-bold">
+                                                @if(!is_null($performance_material))
+                                                    В случае необходимости, можно изменить добавленный файл выступления. Просто загрузите новый файл презентации *
+                                                @else
+                                                    Презентация *
+                                                @endif
+                                            </div>
+                                            <input required type="file" class="form-control" name="material_docs">
+                                            <div class="valid-feedback">
+                                                Файлы добавлены
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Добавьте файл для загрузки
+                                            </div>
+                                        </div>
+                                        <div class="mb-3"><small class="text-secondary">* - Презентация для выступления должна быть в формате PowerPoint</small></div>
+                                        <div class="my-3">
+                                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paperclip"></i> Прикрепить</button>
+                                        </div>
+                                    </form>
+
+                                    @if(!is_null($performance_material))
+                                        <a href="{{ asset('public/storage/' . $performance_material->material_docs) }}" class="btn btn-secondary">{{ str_replace('performance-materials/' . $user->id . '/', '', $performance_material->material_docs) }}</a>
+                                    @endif
+
+                                </div>
+                            @endif
+                        </div>
+
                         <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                             <div class="card card-stats card-round">
                                 <div class="card-body">
@@ -78,52 +148,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3">
-                            <div class="card card-stats card-round p-3">
-                                <h4 class="card-title mb-3">Ваш QR-код</h4>
-                                <div class="mx-auto mt-4 mb-3">
-                                    {{ \SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate(route('scan.user', ['id' => $user->id])) }}
-                                </div>
-                                <a class="btn btn-sm btn-primary" target="_blank" href="{{ route('print.qrcode', ['user_id' => $user->id]) }}"><i class="fa-solid fa-print"></i> Распечатать QR-код</a>
-                            </div>
-                            @if($user->form == 3 || $user->form == 4)
-                                <div class="card card-stats card-round p-3">
-                                    @if(!is_null($performance_material))
-                                        <h4 class="card-title mb-3">Материал для выступления</h4>
-                                    @else
-                                        <h4 class="card-title mb-3">Прикрепите материалы для выступления</h4>
-                                    @endif
-                                    <form class="needs-validation" novalidate action="{{ route('upload.materials') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="my-3">
-                                            <div class="mb-2 fw-bold">
-                                                @if(!is_null($performance_material))
-                                                    В случае необходимости, можно изменить добавленный файл выступления. Просто загрузите новый файл презентации *
-                                                @else
-                                                    Презентация *
-                                                @endif
-                                            </div>
-                                            <input required type="file" class="form-control" name="material_docs">
-                                            <div class="valid-feedback">
-                                                Файлы добавлены
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Добавьте файл для загрузки
-                                            </div>
-                                        </div>
-                                        <div class="mb-3"><small class="text-secondary">* - Презентация для выступления должна быть в формате PowerPoint</small></div>
-                                        <div class="my-3">
-                                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paperclip"></i> Прикрепить</button>
-                                        </div>
-                                    </form>
 
-                                    @if(!is_null($performance_material))
-                                        <a href="{{ asset('public/storage/' . $performance_material->material_docs) }}" class="btn btn-secondary">{{ str_replace('performance-materials/' . $user->id . '/', '', $performance_material->material_docs) }}</a>
-                                    @endif
-
-                                </div>
-                            @endif
-                        </div>
                         <div class="col-sm-12 col-md-6 col-lg-3 mb-3">
                             <div class="card card-stats card-round p-3">
                                 <h4 class="card-title mb-3">Ваша фотография</h4>

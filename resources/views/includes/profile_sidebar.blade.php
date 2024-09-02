@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="">
+                    <a href="{{ route('user.program.index') }}">
                         <i class="fa-solid fa-list-check"></i>
                         <p>Программа</p>
                     </a>
@@ -61,20 +61,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                        <a href="{{ route('users.index') }}">
                             <i class="fa-solid fa-users"></i>
                             <p>Пользователи</p>
-                            <span class="caret"></span>
                         </a>
-                        <div class="collapse" id="sidebarLayouts">
-                            <ul class="nav nav-collapse">
-                                <li>
-                                    <a href="">
-                                        <span class="sub-item">Все пользователи</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
                 @endif
             </ul>

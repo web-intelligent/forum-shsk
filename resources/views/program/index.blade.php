@@ -28,30 +28,31 @@
                                                     <th>Время</th>
                                                     <th>Мероприятие</th>
                                                     <th>Описание и комментарий</th>
+                                                    <th>Статус</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($program_arr as $date => $elements)
                                                     <tr>
-                                                        <td colspan="4" class="bg-primary text-center fs-6" style="vertical-align: middle; color: white; font-weight: bold">{{ date('d сентября Y', strtotime($date)) }}</td>
+                                                        <td colspan="5" class="bg-primary text-center fs-6" style="vertical-align: middle; color: white; font-weight: bold">{{ date('d сентября Y', strtotime($date)) }}</td>
                                                     </tr>
                                                     @foreach($elements as $element)
                                                         @if($element['long'] == 1)
                                                             <tr>
-                                                                <td class="bg-secondary" style="text-align: center; vertical-align: middle; color: white; font-weight: bold" colspan="4">
+                                                                <td class="bg-secondary" style="text-align: center; vertical-align: middle; color: white; font-weight: bold" colspan="5">
                                                                     <a style="color: white" href="{{ route('program.edit', ['program' => $element['id']]) }}">{{ $element['name'] }}</a><br>
                                                                     {{ $element['start_time'] }} @if(!is_null($element['end_time'])) - {{ $element['end_time'] }} @endif<br>
                                                                     @if(!is_null($element['address'])) {{ $element['address'] }}<br> @endif
                                                                     @if(!is_null($element['description'])) {{ $element['description'] }}<br> @endif
                                                                 </td>
                                                             </tr>
-
                                                         @else
                                                             <tr>
-                                                                <td>{{ $element['address'] }}</td>
+                                                                <td>{!! nl2br($element['address']) !!}</td>
                                                                 <td>{{ $element['start_time'] }} @if(!is_null($element['end_time'])) - {{ $element['end_time'] }} @endif</td>
-                                                                <td><a href="{{ route('program.edit', ['program' => $element['id']]) }}">{{ $element['name'] }}</a></td>
-                                                                <td>{{ $element['description'] }}</td>
+                                                                <td><a href="{{ route('program.edit', ['program' => $element['id']]) }}">{!! nl2br($element['name']) !!}</a></td>
+                                                                <td>{!! nl2br($element['description']) !!}</td>
+                                                                <td>@if($element['marked'] == 1) <i data-bs-toggle="tooltip" data-bs-placement="top" title="Доступно пользователям" class="fa-solid fa-users-viewfinder text-primary"></i> @else <i data-bs-toggle="tooltip" data-bs-placement="top" title="Недоступно пользователям" class="fa-solid fa-users-slash text-muted"></i> @endif</td>
                                                             </tr>
                                                         @endif
                                                     @endforeach

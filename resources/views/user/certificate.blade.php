@@ -1,18 +1,14 @@
 @include('includes.profile_header')
 <div class="wrapper">
     @include('includes.profile_sidebar')
-
     <div class="main-panel">
         @include('includes.profile_main_header')
-
         <div class="container">
             <div class="page-inner">
                 <div class="page-header">
-                    <h4 class="page-title">Личный кабинет</h4>
+                    <h4 class="page-title">Сертификаты</h4>
                 </div>
                 <div class="page-category">
-
-
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-6 offset-sm-0 offset-md-3 offset-lg-3">
                             <div class="card card-stats card-round">
@@ -33,12 +29,10 @@
                                         @endif
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
 @include('includes.profile_footer')

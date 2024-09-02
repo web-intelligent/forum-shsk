@@ -6,7 +6,9 @@ use App\Models\Program;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ProgramController extends Controller
 {
@@ -309,6 +311,9 @@ class ProgramController extends Controller
         return view('program', compact('meta', 'user', 'program_arr'));
     }
 
+    /*
+     * Генерация программы в PDF
+     * */
     public function pdfProgramGenerate()
     {
         $pdf = Pdf::loadView('program_pdf');
@@ -316,4 +321,108 @@ class ProgramController extends Controller
         return $pdf->download('Программа Форума ШСК - 2024.pdf');
 
     }
+
+    /*
+     * Страница, где пользователь видит доступные элементы программы и может их выбрать
+     * */
+
+    public function userProgramIndex()
+    {
+        $meta = [
+            'title' => 'Программа пользователя Всероссийского форума школьных спортивных клубов',
+            'keywords' => 'программа форума шск, составить индивидуальную программу',
+            'description' => 'Программа Всероссийского форума школьных спортивных клубов. Здесь можно создать свою программу форума шск',
+        ];
+
+        // Тут берём только доступные элементы программы
+        $programs = Program::where('marked', '=', 1)
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->get();
+        $program_arr = [];
+        $iter = 0;
+        foreach ($programs as $program) {
+            $program_arr[$program->date][$program->start_time][$iter]['id'] = $program->id;
+            $program_arr[$program->date][$program->start_time][$iter]['name'] = $program->name;
+            $program_arr[$program->date][$program->start_time][$iter]['description'] = nl2br($program->description);
+            $program_arr[$program->date][$program->start_time][$iter]['address'] = $program->address;
+            $program_arr[$program->date][$program->start_time][$iter]['start_time'] = $program->start_time;
+            $program_arr[$program->date][$program->start_time][$iter]['end_time'] = $program->end_time;
+            $program_arr[$program->date][$program->start_time][$iter]['long'] = $program->long;
+            $program_arr[$program->date][$program->start_time][$iter]['marked'] = $program->marked;
+            $iter++;
+        }
+
+        $user_program_data = DB::table('user_program')->where('user_id', '=', Auth::id())->first('program');
+//        dd($user_program_data);
+
+        $user_program_data_arr = [];
+        if(!empty($user_program_data)) $user_program_data_arr = json_decode($user_program_data->program, true);
+
+        $user = Auth::user();
+
+        return view('user.program', compact('meta', 'program_arr', 'user', 'user_program_data_arr'));
+    }
+
+
+    /*
+     * Сохранение индивидуальной программы
+     * */
+
+    public function userProgramIndexSubmit(Request $request)
+    {
+//        Validator::make(
+//            $request->all(),
+//            // Валидационные правила
+//            [
+//
+//                'name' => [
+//                    'required', 'max:255', 'min:2',
+//                ],
+//            ],
+//            // Сообщения об ошибках валидации
+//            [
+//                'name.required' => 'Укажите имя',
+//                'name.max' => 'Имя не должно содержать более 500 символов',
+//                'name.min' => 'Имя не должно содержать менее 2 символов',
+//            ]
+//        )->validate();
+        // Собираем массив
+        $elems = [];
+        foreach ($request->all() as $key => $elem) if($key != '_token') $elems[] = $elem;
+
+        // Проверим не пустой ли массив элементов программы
+        if(empty($elems)) return redirect()->route('user.program.index')->with('wrong', 'Ни один из элементов программы не был выбран');
+
+        // проверим количество выбранных элементов
+        if(count($elems) != 3) return redirect()->route('user.program.index')->with('wrong', 'Не все возможные элементы программы были выбраны');
+
+        // проверим есть ли уже данные по текущему пользователю
+        $test = DB::table('user_program')->where('user_id',  '=', Auth::id())->first('id');
+
+        // Если есть
+        if(!empty($test)) {
+            // обновляем данные
+            $update = DB::table('user_program')->where('id', '=', $test->id)->update([
+                'program' => json_encode($elems, JSON_UNESCAPED_UNICODE),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if($update) return redirect()->route('user.program.index')->with('success', 'Индивидуальная программа обновлена успешно');
+        }
+
+        // Добавляем данные
+        $insert = DB::table('user_program')->insert([
+            'user_id' => Auth::id(),
+            'program' => json_encode($elems, JSON_UNESCAPED_UNICODE),
+            'created_at' => date('Y-m-d H:i:s')
+        ]);
+
+        if($insert) return redirect()->route('user.program.index')->with('success', 'Индивидуальная программа составлена успешно');
+
+        return redirect()->route('user.program.index')->with('wrong', 'Индивидуальная программа не составлена. Попробуйте ещё раз');
+
+    }
+
+
 }

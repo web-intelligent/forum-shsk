@@ -110,8 +110,8 @@
 
 
 <!-- Template Javascript -->
-<script src="{{ asset('public/js/main.js') }}"></script>
-<script src="{{ asset('public/js/forum_script.js') }}"></script>
+<script src="{{ asset('public/js/main.js?ver=1.0.0') }}"></script>
+<script src="{{ asset('public/js/forum_script.js?ver=1.0.0') }}"></script>
 </body>
 
 </html>
