@@ -48,7 +48,7 @@ class UserController extends Controller
                 'required', 'min:8', 'max:25'
             ],
             'email' => [
-                'required', 'max:25', 'min:5', 'email'
+                'required', 'max:55', 'min:5', 'email'
             ],
         ];
         //Валидация
@@ -66,7 +66,7 @@ class UserController extends Controller
 
                 'email.required' => 'Укажите адрес электронной почты',
                 'email.min' => 'Адрес электронной почты должен содержать не менее 5 символов',
-                'email.max' => 'Адрес электронной почты должен содержать не более 25 символов',
+                'email.max' => 'Адрес электронной почты должен содержать не более 55 символов',
                 'email.email' => 'Адрес электронной почты указан неверно',
 
             ]
@@ -134,10 +134,10 @@ class UserController extends Controller
                     'required', 'min:8', 'max:25', 'confirmed'
                 ],
                 'email' => [
-                    'required', 'max:25', 'min:5', 'email', 'unique:users'
+                    'required', 'max:55', 'min:5', 'email', 'unique:users'
                 ],
                 'name' => [
-                    'required', 'max:25', 'min:2', 'regex:/[А-Яа-яЁё]/u'
+                    'required', 'max:55', 'min:2', 'regex:/[А-Яа-яЁё]/u'
                 ],
                 'phone' => [
                     'required', 'max:18', 'min:18', 'unique:users'
@@ -197,7 +197,7 @@ class UserController extends Controller
 
                 'email.required' => 'Укажите адрес электронной почты',
                 'email.min' => 'Адрес электронной почты должен содержать не менее 5 символов',
-                'email.max' => 'Адрес электронной почты должен содержать не более 25 символов',
+                'email.max' => 'Адрес электронной почты должен содержать не более 55 символов',
                 'email.email' => 'Адрес электронной почты указан неверно',
                 'email.unique' => 'Указанный адрес электронной почты уже зарегистрирован',
 
@@ -207,7 +207,7 @@ class UserController extends Controller
                 'phone.unique' => 'Указанный номер телефона уже зарегистрирован',
 
                 'name.required' => 'Укажите имя',
-                'name.max' => 'Имя не должно содержать более 25 символов',
+                'name.max' => 'Имя не должно содержать более 55 символов',
                 'name.min' => 'Имя не должно содержать менее 2 символов',
                 'name.regex' => 'В имени должны быть только кириллические символы',
 
@@ -341,7 +341,7 @@ class UserController extends Controller
             // Валидационные правила
             [
                 'email' => [
-                    'required', 'max:25', 'min:5', 'email'
+                    'required', 'max:55', 'min:5', 'email'
                 ],
                 'name' => [
                     'required', 'max:255', 'min:5', 'regex:/[А-Яа-яЁё]/u'
@@ -396,7 +396,7 @@ class UserController extends Controller
 
                 'email.required' => 'Укажите адрес электронной почты',
                 'email.min' => 'Адрес электронной почты должен содержать не менее 5 символов',
-                'email.max' => 'Адрес электронной почты должен содержать не более 25 символов',
+                'email.max' => 'Адрес электронной почты должен содержать не более 55 символов',
                 'email.email' => 'Адрес электронной почты указан неверно',
 
                 'phone.required' => 'Укажите номер телефона',

@@ -70,3 +70,75 @@ $('.delete_user').on('click', function (e) {
         return false;
     }
 })
+
+$('.add_question').off('click');
+$('.add_question').on('click', function (e) {
+    e.preventDefault();
+
+    var areasAmount = $('.answers textarea').length;
+    var type = 'radio';
+    var fieldName = 'right_answer';
+
+
+    if($('input[name="type"]:checked').val() == 2) {
+        type = 'checkbox';
+        fieldName = 'right_answer[]';
+    } else {
+        console.log(111)
+    }
+
+    $('.answers').append(
+        '<div class="d-flex align-items-center justify-content-between mt-3">' +
+            '<div style="margin-right: 25px;"><input type="'+ type +'" name="'+ fieldName +'" value="'+ (areasAmount + 1) +'"></div>' +
+            '<div class="flex-fill"><textarea name="answers[]" rows="2" class="form-control" placeholder="Вариант '+ (areasAmount + 1) +'"></textarea></div>' +
+            '<div style="margin-left: 25px;"><a data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить ответ" class="btn btn-outline-danger btn-sm delete_question" style="font-size: 10px"><i class="fa-solid fa-times"></i></a></div>' +
+        '</div>'
+    );
+
+    $('.delete_question').on('click', function (e) {
+        e.preventDefault();
+
+        $(this).parent().parent().remove();
+    })
+})
+
+$('.start_test').on('click', function (e) {
+    e.preventDefault();
+    if(!confirm('Вы уверены, что хотите начать тестирование')) return false;
+
+    $(this).slideUp()
+
+    var min = $('#countdown').attr('data-value');
+    if(min == 0) {
+        jQuery('.test-overlay').hide();
+        return false;
+    }
+    var sec = 0;
+
+    $('.test-overlay').hide();
+
+    var interval = setInterval(function() {
+        if(sec == 0) {
+            if(min == 0) {
+                $('#timerText').html('0:00');
+                clearInterval(interval);
+                $('.test_form').trigger('submit')
+                return false;
+            }
+            min--;
+            sec = 60;
+        }
+        sec--;
+        if(min < 10) {
+            if(typeof(min) == 'string') {
+                min = min.replace('0', '')
+            }
+            min = '0' + min;
+        }
+        if(sec < 10) {
+            sec = '0' + sec;
+        }
+        $('#timerText').html(min + ':' + sec);
+
+    }, 1000)
+})

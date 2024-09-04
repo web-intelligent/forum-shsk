@@ -47,6 +47,16 @@
                         <p>Сертификаты</p>
                     </a>
                 </li>
+
+                @if($user->form == 2)
+                    <li class="nav-item">
+                        <a href="{{ route('test.show.for.user.table') }}">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <p>Тестирование</p>
+                        </a>
+                    </li>
+                @endif
+
                 @if($user->is_admin == 1 || $user->is_admin == 2)
                     <li class="nav-section">
                         <span class="sidebar-mini-icon">
@@ -64,6 +74,12 @@
                         <a href="{{ route('users.index') }}">
                             <i class="fa-solid fa-users"></i>
                             <p>Пользователи</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('test.index') }}">
+                            <i class="fa-solid fa-square-check"></i>
+                            <p>Тестирование</p>
                         </a>
                     </li>
                 @endif

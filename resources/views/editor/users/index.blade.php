@@ -10,6 +10,26 @@
                 </div>
                 <div class="page-category">
                     <div class="row">
+                        <div class="col-6 col-sm-4 col-lg-2 mb-3">
+                            <div class="card">
+                                <div class="card-body p-3 text-center">
+                                    <div class="h1 m-0">{{ count($users) }}</div>
+                                    <div class="text-muted mb-3">Всего пользователей</div>
+                                </div>
+                            </div>
+                        </div>
+                        @foreach($statistic['forms'] as $form => $amount)
+                            <div class="col-6 col-sm-4 col-lg-2 mb-3">
+                                <div class="card">
+                                    <div class="card-body p-3 text-center">
+                                        <div class="h1 m-0">{{ $amount }}</div>
+                                        <div class="text-muted mb-3">{{ $form }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
                         <div class="col-12">
                             <div class="card card-stats card-round">
                                 <div class="card-body">
@@ -21,9 +41,9 @@
                                                     <table id="test_table" class="table table-striped table-hover" style="font-size: 10px">
                                                         <thead>
                                                             <tr role="row">
-                                                                <th style="font-size: 12px" class="sorting" aria-sort="ascending">#</th>
+                                                                <th style="font-size: 12px" data-sortas="numeric" class="sorting">#</th>
                                                                 <th>Фото</th>
-                                                                <th style="font-size: 12px" class="sorting_asc" aria-sort="ascending">ФИО</th>
+                                                                <th style="font-size: 12px" class="sorting">ФИО</th>
                                                                 <th style="font-size: 12px" class="sorting">Участник <i data-bs-toggle="tooltip" data-bs-placement="top" title="Участник конкурса Профмастерства" class="fa-solid fa-circle-question"></i></th>
                                                                 <th style="font-size: 12px" class="sorting">Дата рождения</th>
                                                                 <th style="font-size: 12px" class="sorting">Телефон</th>

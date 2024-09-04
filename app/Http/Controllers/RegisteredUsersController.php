@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\ForumServices;
+use DateInterval;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,15 +16,29 @@ class RegisteredUsersController extends Controller
     // Список пользователей
     public function index()
     {
+
+
         $meta = [
             'title' => 'Пользователи форума',
             'description' => 'Пользователи форума',
             'keywords' => 'Пользователи форума',
         ];
         $user = Auth::user();
+        $users = \App\Models\User::where('is_admin', '=', 0)->orderBy('id')->get(); // сделать условие is_admin = 0
 
-        $users = \App\Models\User::where('is_admin', '=', 0)->get(); // сделать условие is_admin = 0
-        return view('editor.users.index', compact('meta', 'user', 'users'));
+        $statistic = [];
+
+        foreach ($users as $reg_user) {
+            if (!isset($statistic['forms'])) {
+                $statistic['forms'] = [];
+            }
+            if (!isset($statistic['forms'][ForumServices::$forum_forms[$reg_user->form]])) {
+                $statistic['forms'][ForumServices::$forum_forms[$reg_user->form]] = 0;
+            }
+            $statistic['forms'][ForumServices::$forum_forms[$reg_user->form]] += 1;
+        }
+
+        return view('editor.users.index', compact('meta', 'user', 'users', 'statistic'));
     }
 
     // Подробно о пользователе

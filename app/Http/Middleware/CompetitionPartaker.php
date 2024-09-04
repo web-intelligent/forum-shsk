@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class EditorAndAdmin
+class CompetitionPartaker
 {
     /**
      * Handle an incoming request.
@@ -17,12 +17,10 @@ class EditorAndAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) return redirect()->route('home')->with('wrong', 'Доступ закрыт, авторизуйтесь как администратор');
+        if (!Auth::check()) return redirect()->route('home')->with('wrong', 'Доступ закрыт, авторизуйтесь');
 
+        if(Auth::user()->form == 2) return $next($request);
 
-        if(Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2) return $next($request);
-
-        return redirect()->route('home')->with('wrong', 'Доступ закрыт, авторизуйтесь как администратор');
-
+        return $next($request);
     }
 }

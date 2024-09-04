@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\QRController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RegisteredUsersController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -113,6 +116,47 @@ Route::group(['middleware' => ['is_editor_and_admin']], function () {
     Route::get('/удалить-пользователя/{user_id}', [RegisteredUsersController::class, 'destroy'])->name('users.destroy');
     Route::get('/редактирование-пользователя/{user_id}', [RegisteredUsersController::class, 'edit'])->name('users.edit');
     Route::post('/редактирование-пользователя/{user_id}', [RegisteredUsersController::class, 'update'])->name('users.update');
+
+    /*
+     * Тестирование
+     * */
+    Route::resource('/test', '\App\Http\Controllers\TestController');
+    // Удаление по ссылке, а не по форме
+    Route::get('/удалить-тест/{test_id}', [TestController::class, 'destroy'])->name('my.test.destroy');
+    // Публикация теста
+    Route::get('/опубликовать-тест/{test_id}', [TestController::class, 'publish'])->name('test.publish');
+    // Снять с публикации
+    Route::get('/отмена-публикации-теста/{test_id}', [TestController::class, 'unpublish'])->name('test.unpublish');
+
+
+    /*
+     * Вопросы теста
+     * */
+    Route::get('/вопросы-теста/{test_id}', [QuestionController::class, 'index'])->name('question.index');
+    Route::get('/добавить-вопрос/{test_id}', [QuestionController::class, 'create'])->name('question.create');
+    Route::post('/добавить-вопрос', [QuestionController::class, 'store'])->name('question.store');
+    Route::get('/удалить-вопрос/{question_id}', [QuestionController::class, 'destroy'])->name('question.destroy');
+    Route::get('/редактировать-вопрос/{question_id}', [QuestionController::class, 'edit'])->name('question.edit');
+    Route::post('/редактировать-вопрос', [QuestionController::class, 'update'])->name('question.update');
+
+    /*
+     * Ответы теста
+     * */
+    Route::get('/ответы-на-вопрос/{question_id}', [AnswerController::class, 'index'])->name('answer.index'); // список ответов
+    Route::get('/добавить-ответ/{question_id}', [AnswerController::class, 'create'])->name('answer.create'); // форма добавления ответа
+    Route::post('/добавить-ответ', [AnswerController::class, 'store'])->name('answer.store'); // добавление ответа
+    Route::get('/удалить-ответ/{answer_id}', [AnswerController::class, 'destroy'])->name('answer.destroy'); // удаление ответа
+    Route::get('/редактировать-ответ/{answer_id}', [AnswerController::class, 'edit'])->name('answer.edit'); // форма редактирования ответа
+    Route::post('/редактировать-ответ', [AnswerController::class, 'update'])->name('answer.update'); // редактирование ответа
+
+//    Route::get('/выполнение-теста/{test_id}', [TestController::class, 'showForUser'])->name('test.show.for.user');
+});
+
+// только для пользователей в форме "Конкурсант"
+Route::group(['middleware' => ['competition_partaker']], function () {
+    Route::get('/тестирование-участников-конкурса', [TestController::class, 'index'])->name('test.show.for.user.table');
+    Route::get('/выполнение-теста/{test_id}', [TestController::class, 'showForUser'])->name('test.show.for.user');
+    Route::post('/отправка-теста', [TestController::class, 'sendTest'])->name('test.send');
 });
 
 

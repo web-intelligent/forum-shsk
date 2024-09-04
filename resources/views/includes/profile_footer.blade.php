@@ -11,7 +11,6 @@
 <script src="{{ asset('public/profile/assets/js/core/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ asset('public/profile/assets/js/core/popper.min.js') }}"></script>
 <script src="{{ asset('public/profile/assets/js/core/bootstrap.min.js') }}"></script>
-<script src="public/js/masked_input.js"></script>
 
 <!-- jQuery Scrollbar -->
 <script src="{{ asset('public/profile/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
@@ -43,6 +42,8 @@
 
 <!-- Kaiadmin JS -->
 <script src="{{ asset('public/profile/assets/js/kaiadmin.min.js') }}"></script>
+
+<script src="{{ asset('public/js/masked_input.js') }}"></script>
 
 <script src="{{ asset('public/js/fancyTable.min.js') }}"></script>
 

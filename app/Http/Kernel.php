@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CompetitionPartaker;
 use App\Http\Middleware\EditorAndAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -65,5 +66,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'is_editor_and_admin' => EditorAndAdmin::class,
+        'competition_partaker' => CompetitionPartaker::class,
     ];
 }
