@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TestResultExport;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TestController extends Controller
 {
@@ -167,6 +169,8 @@ class TestController extends Controller
             }
         }
 
+        $second_test_result = DB::table('test_result')->where('user_id', '=', Auth::id())->get();
+
         // получим сам тест
         $test = Test::where('id', $test_id)->first();
         $q_and_a = DB::table('questions')
@@ -203,7 +207,7 @@ class TestController extends Controller
 
         $user = Auth::user();
 
-        return view('test.show_for_user', compact('meta', 'test', 'user', 'arr', 't', 'points'));
+        return view('test.show_for_user', compact('meta', 'test', 'user', 'arr', 't', 'points', 'second_test_result'));
 
     }
 
@@ -393,4 +397,102 @@ class TestController extends Controller
             return view('test.user_result', compact('meta', 'main_arr', 'user', 'test', 'points' ))->with('success', 'Результат Вашего тестирования принят');
         }
     }
+
+
+    /*
+     * Страница результатов тестирования
+     * */
+    public function testResult()
+    {
+        $meta = [
+            'title' => 'Результат прохождения тестирования - Всероссийский форум школьных спортивных клубов',
+            'description' => 'Результат прохождения тестирования - Всероссийский форум школьных спортивных клубов',
+            'keywords' => 'Результат прохождения тестирования - Всероссийский форум школьных спортивных клубов',
+        ];
+
+        $user = Auth::user();
+
+        $results = DB::table('test_user_answers')
+            ->select(
+                'users.name as user_name',
+                'users.id as user_id',
+                'tests.name as test_name',
+                'users.name as user_name',
+                'test_user_answers.test_data',
+                'test_user_answers.test_id'
+            )
+            ->join('users', 'users.id', '=', 'test_user_answers.user_id')
+            ->join('tests', 'tests.id', '=', 'test_user_answers.test_id')
+            ->get();
+
+        $main_arr = [];
+
+        foreach ($results as $result) {
+            $points = 0; // Кол-во баллов
+            $main_arr[$result->user_id]['user_name'] = $result->user_name;
+//            $main_arr[$result->user_id][$result->test_name] = $result->test_data;
+            if($result->test_id == 1) {
+                $test_data = json_decode($result->test_data, true);
+                foreach($test_data as $q_id => $a_id) {
+                    $right = DB::table('answers')->where('id', '=', $a_id)->first('right');
+                    if(!empty($right)) {
+                        if($right->right == 1) {
+                            $points += 1;
+                        }
+                    }
+                }
+                $main_arr[$result->user_id][$result->test_name] = $points;
+            } else {
+                $test_data = json_decode($result->test_data, true);
+                foreach($test_data as $q_id => $answer) {
+                    $question = DB::table('questions')->where('id', '=', $q_id)->first('question');
+                    $main_arr[$result->user_id][$result->test_name][$q_id][$question->question] = $answer;
+                }
+            }
+        }
+
+        return view('editor.test.result', compact('meta', 'user', 'main_arr'));
+
+    }
+
+    /*
+     * Выставление результатов по по каждому вопросу
+     *
+     * */
+
+    public function noteAnswer(Request $request) {
+        $test = DB::table('test_result')
+            ->where('user_id', '=', $request->user_id)
+            ->where('question_id', '=', $request->question_id)
+            ->first('id');
+
+        if(!empty($test)) {
+            $update = DB::table('test_result')
+                ->where('id', '=', $test->id)
+                ->update([
+                'points' => $request->points,
+            ]);
+            if($update) return redirect()->route('test.result')->with('success', 'Результат тестирования изменён успешно');
+        } else {
+            $insert = DB::table('test_result')
+                ->insert([
+                    'points' => $request->points,
+                    'user_id' => $request->user_id,
+                    'question_id' => $request->question_id,
+                ]);
+            if($insert) return redirect()->route('test.result')->with('success', 'Результат тестирования добавлен успешно');
+        }
+
+        return redirect()->back()->with('wrong', 'Что-то пошло не так');
+    }
+
+
+    /*
+     * Выгрузка в Excel
+     * */
+    public function testsResultsExport()
+    {
+        return Excel::download(new TestResultExport, 'Итоговые результаты тестирования.xlsx');
+    }
+
 }

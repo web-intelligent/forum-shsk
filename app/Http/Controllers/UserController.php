@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TestResultExport;
+use App\Exports\UsersExport;
 use App\Models\Program;
 use App\Policies\IsAdminPolicy;
 use App\Services\ForumServices;
@@ -15,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use \App\Models\User;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -543,7 +546,10 @@ class UserController extends Controller
             'description' => 'Страница сертификата пользователей',
         ];
         $user = Auth::user();
-        return view('user.certificate', compact('meta', 'user'));
+
+        $certificate = DB::table('user_certificates')->where('user_id', '=', $user->id)->first('link');
+
+        return view('user.certificate', compact('meta', 'user', 'certificate'));
     }
 
     /*
@@ -629,6 +635,83 @@ class UserController extends Controller
     {
 
         return view('user.print_qrcode', compact('user_id'));
+    }
+
+    /*
+     * Выгрузка в Excel
+     * */
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'Участники форума ШСК (очно) за '. date('d.m.Y') .'.xlsx');
+    }
+
+    /*
+     * Генерация сертификатов
+     * */
+    public function generateCertificates()
+    {
+
+
+        $users = DB::table('users')->select('id', 'name', 'org_name', 'form')->get();
+
+        foreach ($users as $user) {
+
+            $filename = '/var/www/eipfkisr/data/www/xn--l1adgmc.xn----itbjbj2arv.xn--p1ai/public/media/forum_certificate.jpg';
+
+            $img = imageCreateFromJpeg($filename); // Генерация файла
+            $font = '/var/www/eipfkisr/data/www/xn--l1adgmc.xn----itbjbj2arv.xn--p1ai/public/media/Montserrat-Bold.ttf'; // Подключим шрифт
+            $lila = imagecolorallocate($img, 94, 52, 139); // Цвет
+            $black= imagecolorallocate($img, 0, 0, 0); // Цвет
+
+            // Пишем текст
+            if(mb_strlen($user->name) > 30) {
+                imagettftext($img, 28, 0, 241, 280, $lila, $font, $user->name);
+            } else {
+                imagettftext($img, 24, 0, 241, 280, $lila, $font, $user->name);
+            }
+
+            $org_name = trim(stripslashes($user->org_name));
+            $y_org_name = 340;
+            if(mb_strlen($org_name) > 95) {
+                $new_str_org_name = wordwrap($org_name, 95, '|');
+                $str_arr_org_name = explode('|', $new_str_org_name);
+                foreach($str_arr_org_name as $key => $value) {
+                    imagettftext($img, 14, 0, 241, $y_org_name, $black, $font, $value);
+                    $y_org_name += 24;
+                }
+            } else {
+                imagettftext($img, 12, 0, 241, $y_org_name, $black, $font, $org_name);
+            }
+
+            imagettftext($img, 10, 0, 241, $y_org_name + 24, $black, $font, 'Форма участия: ' . ForumServices::$forum_forms[$user->form]);
+
+            // Сохраняем
+            header('Content-Type: image/jpeg');
+            imagejpeg($img, '/var/www/eipfkisr/data/www/xn--l1adgmc.xn----itbjbj2arv.xn--p1ai/public/certificates/'. $user->id .'.jpg', 100);
+            imagedestroy($img);
+
+
+            $test = DB::table('user_certificates')->where('user_id', '=', $user->id)->first('id');
+
+            if(!empty($test)) {
+                DB::table('user_certificates')
+                    ->where('id', '=', $test->id)
+                    ->update([
+                        'user_id' => $user->id,
+                        'link' => '/public/certificates/'. $user->id .'.jpg',
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+            } else {
+                DB::table('user_certificates')->insert([
+                    'user_id' => $user->id,
+                    'link' => '/public/certificates/'. $user->id .'.jpg',
+                    'created_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+
+        }
+
+        return redirect()->back()->with('success', 'Сертификаты выданы успешно');
     }
 
 }

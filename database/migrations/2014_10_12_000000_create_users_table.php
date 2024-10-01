@@ -21,12 +21,12 @@ class CreateUsersTable extends Migration
             $table->string('phone', 55);
             $table->string('telegram', 55)->nullable();
             $table->integer('category');
-            $table->string('seat', 55);
+            $table->string('seat',255);
             $table->integer('standing');
             $table->string('rank', 55)->nullable();
             $table->string('awards', 55)->nullable();
-            $table->string('org_name', 255);
-            $table->string('address', 255);
+            $table->text('org_name');
+            $table->text('address');
             $table->string('region', 55);
             $table->integer('form');
             $table->string('location', 1);

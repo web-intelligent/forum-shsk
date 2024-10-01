@@ -5,6 +5,7 @@
     <title>{{ $meta['title'] }}</title>
     <meta content="{{ $meta['keywords'] }}" name="keywords">
     <meta content="{{ $meta['description'] }}" name="description">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript" >

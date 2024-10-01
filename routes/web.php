@@ -9,6 +9,8 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RegisteredUsersController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserIncomeRegisterController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -149,7 +151,41 @@ Route::group(['middleware' => ['is_editor_and_admin']], function () {
     Route::get('/редактировать-ответ/{answer_id}', [AnswerController::class, 'edit'])->name('answer.edit'); // форма редактирования ответа
     Route::post('/редактировать-ответ', [AnswerController::class, 'update'])->name('answer.update'); // редактирование ответа
 
-//    Route::get('/выполнение-теста/{test_id}', [TestController::class, 'showForUser'])->name('test.show.for.user');
+    /*
+     * Подтверждение участия пользователей на форуме
+     * */
+    Route::get('/регистрация-участников', [UserIncomeRegisterController::class, 'index'])->name('user.income.register.index');
+    Route::get('/регистрация-участников/{user_id}', [UserIncomeRegisterController::class, 'income'])->name('user.income.register.income');
+    Route::get('/выдача-документов/{user_id}', [UserIncomeRegisterController::class, 'docs'])->name('user.income.register.docs');
+
+
+    Route::post('/user-docs-confirm', [UserIncomeRegisterController::class, 'userDocsConfirm'])->name('user.docs.confirm');
+    Route::post('/user-income-confirm', [UserIncomeRegisterController::class, 'userIncomeConfirm'])->name('user.income.confirm');
+
+    /*
+     * Просмотр результатов тестирования
+     * */
+
+    Route::get('/результаты-тестирования', [TestController::class, 'testResult'])->name('test.result');
+    Route::post('/результаты-тестирования', [TestController::class, 'noteAnswer'])->name('test.note.result');
+
+
+    /*
+     * Выгрузка в Excel
+     * */
+    Route::get('/test-result-export', [TestController::class, 'testsResultsExport'])->name('test.result.export');
+
+
+    /*
+     * Выгрузка в Excel
+     * */
+    Route::get('/default_export', [UserController::class, 'export'])->name('default.export');
+
+    /*
+     * Выдача сертификатов
+     * */
+    Route::get('/generate-certificates', [UserController::class, 'generateCertificates'])->name('generate.certificates');
+
 });
 
 // только для пользователей в форме "Конкурсант"
@@ -193,6 +229,13 @@ Route::post('/email/verification-notification', function (Request $request) {
     return redirect()->back()->with('success', 'Ссылка для подтверждения адреса электронной почты была отправлена повторно');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::post('/email/verification-notification-admin', function (Request $request) {
+
+    User::find($request->user_id)->sendEmailVerificationNotification();
+
+    return redirect()->back()->with('success', 'Ссылка для подтверждения адреса электронной почты была отправлена');
+})->middleware(['is_editor_and_admin'])->name('verification.send.admin');
+
 
 Route::fallback(function () {
     $meta = [
@@ -226,4 +269,243 @@ Route::fallback(function () {
 
 Route::get('/программа-pdf', [ProgramController::class, 'pdfProgramGenerate'])->name('pdf.program.generate');
 
+Route::get('/трансляции', function () {
+
+    $meta = [
+        'title' => 'Трансляции Всероссийского форума школьных спортивных клубов',
+        'description' => 'Трансляции Всероссийского форума школьных спортивных клубов',
+        'keywords' => 'Трансляции Всероссийского форума школьных спортивных клубов'
+    ];
+
+    return view('translation', compact('meta'));
+
+})->name('translations');
+
+Route::get('/фотогалерея', function () {
+
+    $meta = [
+        'title' => 'Фотогалерея Форума ШСК',
+        'description' => 'Фотогалерея Форума ШСК',
+        'keywords' => 'Фотогалерея Форума ШСК'
+    ];
+
+
+    $gallery = [
+        '20 сентября 2024' => [
+            'first_day/first_day_forum (1)',
+            'first_day/first_day_forum (2)',
+            'first_day/first_day_forum (3)',
+            'first_day/first_day_forum (4)',
+            'first_day/first_day_forum (5)',
+            'first_day/first_day_forum (6)',
+            'first_day/first_day_forum (7)',
+            'first_day/first_day_forum (8)',
+            'first_day/first_day_forum (9)',
+            'first_day/first_day_forum (10)',
+            'first_day/first_day_forum (11)',
+            'first_day/first_day_forum (12)',
+            'first_day/first_day_forum (13)',
+            'first_day/first_day_forum (14)',
+            'first_day/first_day_forum (15)',
+            'first_day/first_day_forum (16)',
+            'first_day/first_day_forum (17)',
+            'first_day/first_day_forum (18)',
+            'first_day/first_day_forum (19)',
+            'first_day/first_day_forum (20)',
+            'first_day/first_day_forum (21)',
+            'first_day/first_day_forum (22)',
+            'first_day/first_day_forum (23)',
+            'first_day/first_day_forum (24)',
+            'first_day/first_day_forum (25)',
+            'first_day/first_day_forum (26)',
+            'first_day/first_day_forum (27)',
+            'first_day/first_day_forum (28)',
+            'first_day/first_day_forum (29)',
+            'first_day/first_day_forum (30)',
+            'first_day/first_day_forum (31)',
+
+        ],
+        '21 сентября 2024' => [
+            'second_day/second_day_forum (1)',
+            'second_day/second_day_forum (2)',
+            'second_day/second_day_forum (3)',
+            'second_day/second_day_forum (4)',
+            'second_day/second_day_forum (5)',
+            'second_day/second_day_forum (6)',
+            'second_day/second_day_forum (7)',
+            'second_day/second_day_forum (8)',
+            'second_day/second_day_forum (9)',
+            'second_day/second_day_forum (10)',
+            'second_day/second_day_forum (11)',
+            'second_day/second_day_forum (12)',
+            'second_day/second_day_forum (13)',
+            'second_day/second_day_forum (14)',
+            'second_day/second_day_forum (15)',
+            'second_day/second_day_forum (16)',
+            'second_day/second_day_forum (17)',
+            'second_day/second_day_forum (18)',
+            'second_day/second_day_forum (19)',
+            'second_day/second_day_forum (20)',
+            'second_day/second_day_forum (21)',
+            'second_day/second_day_forum (22)',
+            'second_day/second_day_forum (23)',
+            'second_day/second_day_forum (24)',
+            'second_day/second_day_forum (25)',
+            'second_day/second_day_forum (26)',
+            'second_day/second_day_forum (27)',
+            'second_day/second_day_forum (28)',
+            'second_day/second_day_forum (29)',
+            'second_day/second_day_forum (30)',
+            'second_day/second_day_forum (31)',
+            'second_day/second_day_forum (32)',
+            'second_day/second_day_forum (33)',
+            'second_day/second_day_forum (34)',
+            'second_day/second_day_forum (35)',
+            'second_day/second_day_forum (36)',
+            'second_day/second_day_forum (37)',
+            'second_day/second_day_forum (38)',
+            'second_day/second_day_forum (39)',
+            'second_day/second_day_forum (40)',
+            'second_day/second_day_forum (41)',
+            'second_day/second_day_forum (42)',
+            'second_day/second_day_forum (43)',
+
+        ],
+    ];
+
+    return view('photo_gallery', compact('meta', 'gallery'));
+
+})->name('photo.gallery');
+
+
+Route::get('/активная-дружная-семья', function () {
+
+    $meta = [
+        'title' => 'Фотовыставка "Активная дружная семья"',
+        'description' => 'Всероссийский форум школьных и студенческих спортивных клубов. Фотовыставка "Активная дружная семья"',
+        'keywords' => 'активная дружная семья, фотовыставка Активная дружная семья'
+    ];
+
+    $images = [
+        'family/photo (1)',
+        'family/photo (2)',
+        'family/photo (3)',
+        'family/photo (4)',
+        'family/photo (5)',
+        'family/photo (6)',
+        'family/photo (7)',
+        'family/photo (8)',
+        'family/photo (9)',
+        'family/photo (10)',
+        'family/photo (11)',
+        'family/photo (12)',
+        'family/photo (13)',
+        'family/photo (14)',
+        'family/photo (15)',
+        'family/photo (16)',
+        'family/photo (17)',
+        'family/photo (18)',
+        'family/photo (19)',
+        'family/photo (20)',
+        'family/photo (21)',
+        'family/photo (22)',
+        'family/photo (23)',
+        'family/photo (24)',
+        'family/photo (25)',
+        'family/photo (26)',
+        'family/photo (27)',
+        'family/photo (28)',
+        'family/photo (29)',
+        'family/photo (30)',
+        'family/photo (31)',
+        'family/photo (32)',
+        'family/photo (33)',
+        'family/photo (34)',
+        'family/photo (35)',
+        'family/photo (36)',
+    ];
+
+    $bogdanovi = [
+        'family/bogdanovi/bogdanovi (1)',
+        'family/bogdanovi/bogdanovi (2)',
+        'family/bogdanovi/bogdanovi (3)',
+        'family/bogdanovi/bogdanovi (4)',
+        'family/bogdanovi/bogdanovi (5)',
+        'family/bogdanovi/bogdanovi (6)',
+        'family/bogdanovi/bogdanovi (7)',
+        'family/bogdanovi/bogdanovi (8)',
+        'family/bogdanovi/bogdanovi (9)',
+        'family/bogdanovi/bogdanovi (10)',
+        'family/bogdanovi/bogdanovi (11)',
+        'family/bogdanovi/bogdanovi (12)',
+        'family/bogdanovi/bogdanovi (13)',
+        'family/bogdanovi/bogdanovi (14)',
+        'family/bogdanovi/bogdanovi (15)',
+        'family/bogdanovi/bogdanovi (16)',
+        'family/bogdanovi/bogdanovi (17)',
+        'family/bogdanovi/bogdanovi (18)',
+        'family/bogdanovi/bogdanovi (19)',
+        'family/bogdanovi/bogdanovi (20)',
+        'family/bogdanovi/bogdanovi (21)',
+        'family/bogdanovi/bogdanovi (22)',
+        'family/bogdanovi/bogdanovi (23)',
+        'family/bogdanovi/bogdanovi (24)',
+        'family/bogdanovi/bogdanovi (25)',
+        'family/bogdanovi/bogdanovi (26)',
+        'family/bogdanovi/bogdanovi (27)',
+        'family/bogdanovi/bogdanovi (28)',
+        'family/bogdanovi/bogdanovi (29)',
+        'family/bogdanovi/bogdanovi (30)',
+        'family/bogdanovi/bogdanovi (31)',
+        'family/bogdanovi/bogdanovi (32)',
+        'family/bogdanovi/bogdanovi (33)',
+        'family/bogdanovi/bogdanovi (34)',
+        'family/bogdanovi/bogdanovi (35)',
+        'family/bogdanovi/bogdanovi (36)',
+        'family/bogdanovi/bogdanovi (37)',
+        'family/bogdanovi/bogdanovi (38)',
+        'family/bogdanovi/bogdanovi (39)',
+        'family/bogdanovi/bogdanovi (40)',
+        'family/bogdanovi/bogdanovi (41)',
+        'family/bogdanovi/bogdanovi (42)',
+        'family/bogdanovi/bogdanovi (43)',
+        'family/bogdanovi/bogdanovi (44)',
+        'family/bogdanovi/bogdanovi (45)',
+        'family/bogdanovi/bogdanovi (46)',
+        'family/bogdanovi/bogdanovi (47)',
+        'family/bogdanovi/bogdanovi (48)',
+        'family/bogdanovi/bogdanovi (49)',
+        'family/bogdanovi/bogdanovi (50)',
+        'family/bogdanovi/bogdanovi (51)',
+        'family/bogdanovi/bogdanovi (52)',
+        'family/bogdanovi/bogdanovi (53)',
+        'family/bogdanovi/bogdanovi (54)',
+        'family/bogdanovi/bogdanovi (55)',
+        'family/bogdanovi/bogdanovi (56)',
+        'family/bogdanovi/bogdanovi (57)',
+        'family/bogdanovi/bogdanovi (58)',
+        'family/bogdanovi/bogdanovi (59)',
+        'family/bogdanovi/bogdanovi (60)',
+        'family/bogdanovi/bogdanovi (61)',
+        'family/bogdanovi/bogdanovi (62)',
+        'family/bogdanovi/bogdanovi (63)',
+        'family/bogdanovi/bogdanovi (64)',
+        'family/bogdanovi/bogdanovi (65)',
+        'family/bogdanovi/bogdanovi (66)',
+        'family/bogdanovi/bogdanovi (67)',
+        'family/bogdanovi/bogdanovi (68)',
+        'family/bogdanovi/bogdanovi (69)',
+        'family/bogdanovi/bogdanovi (70)',
+        'family/bogdanovi/bogdanovi (71)',
+        'family/bogdanovi/bogdanovi (72)',
+        'family/bogdanovi/bogdanovi (73)',
+        'family/bogdanovi/bogdanovi (74)',
+        'family/bogdanovi/bogdanovi (75)',
+        'family/bogdanovi/bogdanovi (76)',
+        'family/bogdanovi/bogdanovi (77)',
+    ];
+
+    return view('photos_family', compact('meta', 'images', 'bogdanovi'));
+
+})->name('active.family');
 

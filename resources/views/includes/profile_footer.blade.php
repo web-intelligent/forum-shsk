@@ -48,7 +48,8 @@
 <script src="{{ asset('public/js/fancyTable.min.js') }}"></script>
 
 <script src="{{ asset('public/js/jquery.viewbox.min.js') }}"></script>
+<script src="{{ asset('public/js/pusher.min.js') }}"></script>
 
-<script src="{{ asset('public/js/forum_script.js?ver=1.0.0') }}"></script>
+<script src="{{ asset('public/js/forum_script.js?ver=1.0.1') }}"></script>
 </body>
 </html>

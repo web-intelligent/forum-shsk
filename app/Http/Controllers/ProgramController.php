@@ -395,7 +395,7 @@ class ProgramController extends Controller
         if(empty($elems)) return redirect()->route('user.program.index')->with('wrong', 'Ни один из элементов программы не был выбран');
 
         // проверим количество выбранных элементов
-        if(count($elems) != 3) return redirect()->route('user.program.index')->with('wrong', 'Не все возможные элементы программы были выбраны');
+        if(count($elems) != 2) return redirect()->route('user.program.index')->with('wrong', 'Не все возможные элементы программы были выбраны');
 
         // проверим есть ли уже данные по текущему пользователю
         $test = DB::table('user_program')->where('user_id',  '=', Auth::id())->first('id');

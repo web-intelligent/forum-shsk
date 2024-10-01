@@ -35,12 +35,12 @@
                         <p>Программа</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('poll.form') }}">
-                        <i class="fas fa-edit"></i>
-                        <p>Опрос</p>
-                    </a>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a href="{{ route('poll.form') }}">--}}
+{{--                        <i class="fas fa-edit"></i>--}}
+{{--                        <p>Опрос</p>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
                 <li class="nav-item">
                     <a href="{{ route('certificates') }}">
                         <i class="fas fa-certificate"></i>
@@ -80,6 +80,18 @@
                         <a href="{{ route('test.index') }}">
                             <i class="fa-solid fa-square-check"></i>
                             <p>Тестирование</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('test.result') }}">
+                            <i class="fa-solid fa-square-check"></i>
+                            <p>Результаты тестирование</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('user.income.register.index') }}">
+                            <i class="fa-solid fa-user-shield"></i>
+                            <p>Регистрация участников<br> форума</p>
                         </a>
                     </li>
                 @endif

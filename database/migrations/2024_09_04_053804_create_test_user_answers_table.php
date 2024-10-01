@@ -17,7 +17,7 @@ class CreateTestUserAnswersTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->index('user_id');
             $table->integer('test_id')->index('test_id');
-            $table->string('test_data', 255);
+            $table->text('test_data');
             $table->timestamps();
         });
     }

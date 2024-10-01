@@ -17,8 +17,9 @@
                                 <div class="card-body">
                                     <h4 class="mb-4 text-center">{{ $test->name }}</h4>
                                     <p class="text-muted">{{ $test->description }}</p>
-                                    @if(!empty($t))
+                                    @if(!empty($t) && $t->id == 1)
                                         <div class="btn btn-secondary my-3">Результат тестирования (баллов): {{ $points }}</div>
+                                    @else
                                         <div><small class="text-secondary">Внимание! Если Вы проходили тестирование открытого типа, результаты будут известны после проверки членами жюри</small></div>
                                     @endif
                                     @if(empty($t))
@@ -29,7 +30,7 @@
                                     <div class="btn-group" style="position: absolute; top: -52px; right: 3px;">
                                         <a class="btn btn-primary start_test" href=""><i class="fa-solid fa-clock"></i> Начать тестирование</a>
                                     </div>
-                                    @endif()
+                                    @endif
                                     <form action="{{ route('test.send') }}" method="POST" class="position-relative test_form needs-validation" novalidate>
                                         <input type="hidden" name="test_id" value="{{ $test->id }}">
                                         @if(empty($t))
@@ -80,6 +81,11 @@
                                                 @elseif($type == 3)
                                                     <div class="mb-3">
                                                         <textarea @if(!empty($t)) disabled @endif() required class="form-control" name="{{ $answer['question_id'] }}" placeholder="Запишите ответ сюда">@if(!empty($test_data)) {{ $test_data[$answer['question_id']] }} @endif</textarea>
+                                                        @foreach($second_test_result as $res)
+                                                            @if($res->question_id == $answer['question_id'])
+                                                                <div class="my-3 fw-bold">Результат оценивания: {{ $res->points }} баллов</div>
+                                                            @endif
+                                                        @endforeach
                                                     </div>
                                                 @endif
                                             @endforeach

@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="{{ asset('public/lib/animate/animate.min.css') }}"/>
     <link href="{{ asset('public/lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('public/css/viewbox.css') }}" />
 
 
     <!-- Customized Bootstrap Stylesheet -->
@@ -148,9 +149,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav mx-0">
-                    <a href="{{ route('home') }}" class="nav-item nav-link">Главная</a>
-                    <a href="{{ route('home') }}" class="nav-item nav-link">Программа</a>
-                    <a href="{{ route('home') }}" class="nav-item nav-link">Трансляции</a>
+                    <a href="{{ route('translations') }}" class="nav-item nav-link">Трансляции</a>
+                    <a href="{{ route('show.program') }}" class="nav-item nav-link">Программа</a>
+                    <a href="{{ route('photo.gallery') }}" class="nav-item nav-link">Фотогалерея</a>
                     @if(!\Illuminate\Support\Facades\Auth::check())
                         <a href="{{ route('login') }}" class="nav-item nav-link">Войти</a>
                     @endif
@@ -159,6 +160,9 @@
                             <span class="dropdown-toggle">Форум</span>
                         </a>
                         <div class="dropdown-menu p-4">
+                            <a href="https://фцомофв.рф/activities/page905/page260/page269/page517/page443/" target="_blank" class="nav-item nav-link mb-4">Форум 2019</a>
+                            <a href="https://фцомофв.рф/activities/page905/page260/page269/page517/page501/" target="_blank" class="nav-item nav-link mb-4">Форум 2020</a>
+                            <a href="https://фцомофв.рф/activities/page905/page260/page269/page517/page617/" target="_blank" class="nav-item nav-link mb-4">Форум 2021</a>
                             <a href="https://еип-фкис.рф/forum" target="_blank" class="nav-item nav-link mb-4">Форум 2022</a>
                             <a href="https://forum.еип-фкис.рф" target="_blank" class="nav-item nav-link mb-4">Форум 2023</a>
                         </div>

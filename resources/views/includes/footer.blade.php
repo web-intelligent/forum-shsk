@@ -21,14 +21,14 @@
                         <div class="col-md-6 col-lg-6 col-xl-4">
                             <div class="footer-item">
                                 <h4 class="text-white mb-4">Ссылки</h4>
-                                <a href="{{ route('home') }}"><i class="fas fa-angle-right me-2"></i> Главная</a>
-                                <a href="{{ route('home') }}"><i class="fas fa-angle-right me-2"></i> Программа</a>
-                                <a href="{{ route('home') }}"><i class="fas fa-angle-right me-2"></i> Трансляции</a>
-                                @if(!\Illuminate\Support\Facades\Auth::check())
-                                    <a href="{{ route('login') }}"><i class="fas fa-angle-right me-2"></i> Войти</a>
-                                @endif
-                                <a href="https://еип-фкис.рф/forum" target="_blank"><i class="fas fa-angle-right me-2"></i> Форум 2022</a>
-                                <a href="https://forum.еип-фкис.рф" target="_blank"><i class="fas fa-angle-right me-2"></i> Форум 2023</a>
+                                <a href="{{ route('translations') }}" class="nav-item nav-link">Трансляции</a>
+                                <a href="{{ route('show.program') }}" class="nav-item nav-link">Программа</a>
+                                <a href="{{ route('photo.gallery') }}" class="nav-item nav-link">Фотогалерея</a>
+                                <a href="https://фцомофв.рф/activities/page905/page260/page269/page517/page443/" target="_blank" class="nav-item nav-link">Форум 2019</a>
+                                <a href="https://фцомофв.рф/activities/page905/page260/page269/page517/page501/" target="_blank" class="nav-item nav-link">Форум 2020</a>
+                                <a href="https://фцомофв.рф/activities/page905/page260/page269/page517/page617/" target="_blank" class="nav-item nav-link">Форум 2021</a>
+                                <a href="https://еип-фкис.рф/forum" target="_blank" class="nav-item nav-link">Форум 2022</a>
+                                <a href="https://forum.еип-фкис.рф" target="_blank" class="nav-item nav-link">Форум 2023</a>
                             </div>
                         </div>
                     </div>
@@ -107,11 +107,12 @@
 <script src="{{ asset('public/lib/lightbox/js/lightbox.min.js') }}"></script>
 <script src="{{ asset('public/lib/owlcarousel/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('public/js/masked_input.js') }}"></script>
+<script src="{{ asset('public/js/jquery.viewbox.min.js') }}"></script>
 
 
 <!-- Template Javascript -->
-<script src="{{ asset('public/js/main.js?ver=1.0.0') }}"></script>
-<script src="{{ asset('public/js/forum_script.js?ver=1.0.0') }}"></script>
+<script src="{{ asset('public/js/main.js?ver=1.0.1') }}"></script>
+<script src="{{ asset('public/js/forum_script.js?ver=1.0.3') }}"></script>
 </body>
 
 </html>

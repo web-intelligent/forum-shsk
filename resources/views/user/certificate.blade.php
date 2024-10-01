@@ -10,24 +10,15 @@
                 </div>
                 <div class="page-category">
                     <div class="row">
-                        <div class="col-sm-12 col-md-6 col-lg-6 offset-sm-0 offset-md-3 offset-lg-3">
+                        <div class="col-sm-12 col-lg-8 offset-lg-2 offset-sm-0">
                             <div class="card card-stats card-round">
                                 <div class="card-body">
                                     <h4 class="mb-4 text-center">Сертификат участника форума</h4>
-                                    <p>Сертификат участника форума будет доступен по окончанию форума</p>
-                                    <form class="needs-validation" action="" method="POST" novalidate>
-                                        @csrf
-                                        @if ($errors->any())
-                                            <div class="response-message-register">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                                <small style="font-size: 10px" class="text-white">Нажмите, чтобы скрыть</small>
-                                            </div>
+                                    <div>
+                                        @if(!empty($certificate))
+                                            <img style="width: 100%" src="{{ asset($certificate->link) }}" alt="">
                                         @endif
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -17,7 +17,6 @@ class RegisteredUsersController extends Controller
     public function index()
     {
 
-
         $meta = [
             'title' => 'Пользователи форума',
             'description' => 'Пользователи форума',
@@ -92,7 +91,7 @@ class RegisteredUsersController extends Controller
             // Валидационные правила
             [
                 'email' => [
-                    'required', 'max:25', 'min:5', 'email'
+                    'required', 'max:55', 'min:5', 'email'
                 ],
                 'name' => [
                     'required', 'max:255', 'min:5', 'regex:/[А-Яа-яЁё]/u'
@@ -147,7 +146,7 @@ class RegisteredUsersController extends Controller
 
                 'email.required' => 'Укажите адрес электронной почты',
                 'email.min' => 'Адрес электронной почты должен содержать не менее 5 символов',
-                'email.max' => 'Адрес электронной почты должен содержать не более 25 символов',
+                'email.max' => 'Адрес электронной почты должен содержать не более 55 символов',
                 'email.email' => 'Адрес электронной почты указан неверно',
 
                 'phone.required' => 'Укажите номер телефона',

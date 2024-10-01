@@ -23,6 +23,16 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-3">
                             <div class="card card-stats card-round p-3">
+                                <div class="row align-items-center">
+                                    <div class="col-3 text-center">
+                                        <i class="fa-solid fa-person-circle-check text-success" style="font-size: 48px"></i>
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="text-success fw-bold">Регистрация завершена успешно. Вы являетесь участником форума ШСК 2024</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-stats card-round p-3">
                                 <h4 class="card-title mb-3">Список задач</h4>
                                 <ul class="mt-3">
                                     @if(is_null($user->avatar))
@@ -35,7 +45,7 @@
                                     @else
                                         <li style="list-style: none;" class="text-danger"><i class="fa-solid fa-xmark"></i> Составить программу</li>
                                     @endif
-                                    <li style="list-style: none;" class="text-danger"><i class="fa-solid fa-xmark"></i> Пройти опрос</li>
+{{--                                    <li style="list-style: none;" class="text-danger"><i class="fa-solid fa-xmark"></i> Пройти опрос</li>--}}
                                     @if($user->form == 3 || $user->form == 4)
                                             @if(!is_null($performance_material))
                                                 <li style="list-style: none;" class="text-success"><i class="fa-solid fa-check"></i> Материал для выступления добавлен</li>

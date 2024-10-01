@@ -11,7 +11,7 @@
         </div>
         <div class="mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s">
             <div class="d-flex justify-content-end mb-3">
-                <div><a class="btn btn-primary rounded-pill py-2 px-4 ms-3 flex-shrink-0" href="{{ route('pdf.program.generate') }}"><i class="fa-solid fa-file-pdf"></i> Скачать в PDF</a> </div>
+                <div><a class="btn btn-primary rounded-pill py-2 px-4 ms-3 flex-shrink-0" href="{{ asset('public/media/forum_program_pdf.pdf') }}"><i class="fa-solid fa-file-pdf"></i> Скачать в PDF</a> </div>
             </div>
             @if(!empty($program_arr))
                 <table class="table table-bordered table-striped" style="font-size: 12px">

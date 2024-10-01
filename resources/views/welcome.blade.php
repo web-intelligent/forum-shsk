@@ -34,8 +34,9 @@
                             <p class="mb-5">Уникальное мероприятие, где участники могут общаться, делиться опытом и идеями, находить новых друзей и партнеров. Объединение профессионального потенциала педагогического сообщества физкультурно-спортивного профиля, осуществляющего деятельность по реализации приоритетного направления - развития школьных спортивных клубов в общеобразовательных организациях Российской Федерации
                             </p>
                             <div class="d-flex justify-content-center justify-content-md-start flex-shrink-0 mb-4">
-                                <a class="btn btn-light rounded-pill py-3 px-4 px-md-5 me-2" href="{{ route('register.form') }}"><i class="fas fa-user-plus me-2"></i> Принять участие</a>
-{{--                                <a class="btn btn-dark rounded-pill py-3 px-4 px-md-5 ms-2" href="#"><i class="fas fa-info me-2"></i>Подробнее</a>--}}
+                                <a class="btn btn-light rounded-pill py-3 px-4 px-md-5 me-2" href="{{ route('active.family') }}"><i class="fa-solid fa-camera-retro"></i> Фотовыставка "Активная дружная семья"</a>
+{{--                                <a target="_blank" class="btn btn-dark rounded-pill py-3 px-4 px-md-5 ms-2" href="{{ asset('public/media/press_relis.pdf') }}"><i class="fas fa-info me-2"></i>Пресс-релиз</a>--}}
+                                <a target="_blank" class="btn btn-dark rounded-pill py-3 px-4 px-md-5 ms-2" href="{{ asset('public/media/post_relis_3.pdf') }}"><i class="fas fa-info me-2"></i>Пост-релиз</a>
                             </div>
                         </div>
                     </div>
@@ -101,6 +102,20 @@
 {{--    </div>--}}
 </div>
 <!-- Carousel End -->
+
+<!-- Blog Start -->
+<div class="container-fluid blog pb-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+
+            <h2 class="display-6 mb-4">Всероссийский форум школьных спортивных клубов</h2>
+            <div class="mt-5">
+                <iframe src="https://vk.com/video_ext.php?oid=-211630206&id=456239146&hd=2&autoplay=1" width="100%" height="480" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Blog End -->
 
 <!-- Feature Start -->
 <div class="container-fluid feature bg-light py-5">
