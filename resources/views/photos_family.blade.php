@@ -22,7 +22,7 @@
     <div class="container pb-5">
         <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
             <h4 class="text-primary">Фотовыставка</h4>
-            <h1 class="display-6 mb-4">{{$meta['title']}}</h1>
+            <h1 class="display-7 mb-4">{{$meta['title']}}</h1>
         </div>
         <div class="row">
             <div class="col-sm-12 col-lg-6 mb-3">
@@ -44,6 +44,9 @@
             </div>
         </div>
         <div class="mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="text-center mx-auto pb-5 " style="max-width: 800px;">
+                <h1 class="display-6 mb-4">Фотографии победителей и призеров Конкурсных мероприятий 2024 года</h1>
+            </div>
             <div class="masonry-layout gallery">
                 @foreach($images as $img_name)
                     <div class="masonry-layout__panel">
@@ -53,7 +56,8 @@
                     </div>
                 @endforeach
             </div>
-            <h2 class="text-center display-4 my-5">Семья Богдановых</h2>
+            <h2 class="text-center display-4 my-5">Семья Богдановых г. Химки Московской области</h2>
+            <h6 class="text-center mb-4 text-muted">Победители Всероссийской акции "Физическая культура и спорт - альтернатива пагубным привычкам" в номинации "Одна семья - одна команда" Богданова Анастасия, обучающаяся 8 класса "Г" Муниципального бюджетного общеобразовательного учреждения школа "Триумф"</h6>
             <div class="masonry-layout gallery">
                 @foreach($bogdanovi as $img_name)
                     <div class="masonry-layout__panel">
